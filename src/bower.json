@@ -1,0 +1,19 @@
+{
+  "name": "invoice",
+  "version": "0.0.0",
+  "authors": [
+    "JumpLink <jumplink@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets/third-party",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0"
+  }
+}
