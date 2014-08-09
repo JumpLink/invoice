@@ -32,8 +32,10 @@ module.exports.routes = {
     view: 'homepage'
   },
 
+  '/invoice/new': {
+    view: 'invoice/new'
+  },
 
-  // Custom routes here...
   'put /odf/:filename': 'OdfController.create',
 
 

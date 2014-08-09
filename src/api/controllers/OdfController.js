@@ -9,8 +9,6 @@ var fs = require('fs');
 
 module.exports = {
 
-
-
   /**
    * `OdfController.get()`
    */
@@ -26,13 +24,10 @@ module.exports = {
    * `OdfController.create()`
    */
   create: function (req, res) {
-    console.log("create file");
     req.file("WebODF").upload(function (err, files) {
-      console.log("upload files");
-      console.log(files);
       if (err) {
+        sails.log.error(err);
         return res.serverError(err);
-        console.log(err);
       }
 
       return res.json({
@@ -40,20 +35,6 @@ module.exports = {
         files: files
       });
     });
-
-    // if (req.xhr) {
-    //   console.log("Yup, it's AJAX alright.");
-    // }
-    // console.log(req);
-    // req.pipe(fs.createWriteStream(__dirname + "/test.odt"));
-
-    // req.on('data', function(data) {
-    //   console.log(data);
-    // });
-
-    // return res.json({
-    //   todo: 'create() is not implemented yet!'
-    // });
   },
 
 
