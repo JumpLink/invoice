@@ -1,0 +1,38 @@
+doctype html
+html(lang="en", ng-app="jumplink.invoice")
+  head
+    title Invoice
+
+    // Viewport mobile tag for sensible mobile support
+    meta(name="viewport",content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no")
+
+    // Bring in the socket.io client
+    script(type="text/javascript", src="/js/dependencies/socket.io.js")
+    // then beef it up with some convenience logic for talking to Sails.js'
+    script(type="text/javascript", src="/js/dependencies/sails.io.legany.js")
+
+    // Stylesheets
+    link(href='/styles/importer.css', rel='stylesheet')
+
+    // Templates
+    script(type="text/ng-template", id="/"): include angular-templates/index.jade
+    script(type="text/ng-template", id="/invoice/new"): include angular-templates/invoice/new.jade
+
+  body(class="{{$root.bodylayout}}", ng-view)
+    script(type="text/javascript", src="/third-party/angular/angular.js")
+    script(type="text/javascript", src="/third-party/angular-route/angular-route.js")
+    script(type="text/javascript", src="/third-party/angular-sanitize/angular-sanitize.js")
+    script(type="text/javascript", src="/third-party/angular-animate/angular-animate.js")
+    script(type="text/javascript", src="/third-party/angular-strap/dist/angular-strap.js")
+    script(type="text/javascript", src="/third-party/angular-sails/dist/angular-sails.js")
+
+    script(type="text/javascript", src="/third-party/moment/moment.js")
+    script(type="text/javascript", src="/third-party/angular-moment/angular-moment.js")
+    script(type="text/javascript", src="/third-party/qrcode-generator/js/qrcode.js")
+    script(type="text/javascript", src="/third-party/angular-qrcode/qrcode.js")
+    script(src='/third-party/webodf/webodf-debug.js', type='text/javascript', charset='utf-8')
+
+    script(type="text/javascript", src="/js/main.js")
+    script(type="text/javascript", src="/js/controllers.js")
+    script(type="text/javascript", src="/js/directives/webodf.js")
+    script(type="text/javascript", src="/js/config.js")

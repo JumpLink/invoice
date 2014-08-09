@@ -12,6 +12,7 @@ invoice.approver.phone          Telefon
 invoice.approver.fax            Fax
 invoice.approver.ustid          UstID
 
+invoice.approver.bank.owner     Kntoinhaber
 invoice.approver.bank.name      Bankname
 invoice.approver.bank.iban      IBAN
 invoice.approver.bank.bic       BIC

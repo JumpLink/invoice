@@ -1,26 +1,5 @@
-extends ./../layout
-
-block styles
-  link(rel="stylesheet", media="screen, print, handheld, projection", type="text/css" href="/styles/importer.css")
-block body
-  #odf
-
-block scripts
-  script(src='/third-party/webodf/webodf-debug.js', type='text/javascript', charset='utf-8')
-  script(type='text/javascript', charset='utf-8').
-
-    // source: http://www.w3schools.com/dom/dom_loadxmldoc.asp
-    function loadXMLString(txt) {
-      if (window.DOMParser) {
-        parser=new DOMParser();
-        xmlDoc=parser.parseFromString(txt,"text/xml");
-      } else { // code for IE
-        xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
-        xmlDoc.async=false;
-        xmlDoc.loadXML(txt);
-      }
-      return xmlDoc;
-    }
+angular.module('webodf', [])
+  .directive('webodfview', function ($compile) {
 
     /*
      * Request to server with file stream of the document.
@@ -268,36 +247,46 @@ block scripts
       odfContentNodeElement.insertBefore(newTableElement, templateElement);
     }
 
-    var odfElement = document.getElementById("odf");
-    var odfCanvas = new odf.OdfCanvas(odfElement);
-    odfCanvas.load("/invoice.odt");
+    return {
+      restrict: 'E',
+      scope: {file : "@"},
+      link: function (scope, element, attrs) {
 
-    // Callback fired after odf document is ready
-    odfCanvas.addListener("statereadychange", function () {
-      var odfContainer = odfCanvas.odfContainer();
-      //- var odfElement = odfCanvas.getElement();
-      //- var odfDocument = odfElement.getElementsByTagName('document')[0];
-      var odfContentNodeElement = odfContainer.getContentElement();
-      var zoomHelper = odfCanvas.getZoomHelper();
-      zoomHelper.setZoomLevel(0.8);
+        var nid = 'odt' + Math.floor((Math.random()*100)+1);
+        element.attr('id', nid);
+        var odfCanvas = new odf.OdfCanvas(element[0]);
+        odfCanvas.load(scope.file);
 
-      var userFieldNodeElements = getUserFieldElements(odfContentNodeElement);
-      updateUserFieldElement(userFieldNodeElements, 'invoice.currency', 'string', 'Euro', function(error) {
-        if(error) console.log(error);
-      });
+        // Callback fired after odf document is ready
+        odfCanvas.addListener("statereadychange", function () {
+          var odfContainer = odfCanvas.odfContainer();
+          //- var odfElement = odfCanvas.getElement();
+          //- var odfDocument = odfElement.getElementsByTagName('document')[0];
+          var odfContentNodeElement = odfContainer.getContentElement();
+          var zoomHelper = odfCanvas.getZoomHelper();
+          zoomHelper.setZoomLevel(0.8);
 
-      var tables = getTables(odfContentNodeElement);
-      getTableByName(tables, 'tasktable', function(error, tableElement) {
-        for (var i = 1; i <= 6; i++) {
-          appendNewTaskTableElement(odfContentNodeElement, tableElement, i, "neuer Titel", "neue Beschreibung", 100);
-        };
-        // remove template
-        tableElement.parentNode.removeChild(tableElement);
-      });
+          var userFieldNodeElements = getUserFieldElements(odfContentNodeElement);
+          updateUserFieldElement(userFieldNodeElements, 'invoice.currency', 'string', 'Euro', function(error) {
+            if(error) console.log(error);
+          });
 
-      odfCanvas.refreshSize();
+          var tables = getTables(odfContentNodeElement);
+          getTableByName(tables, 'tasktable', function(error, tableElement) {
+            for (var i = 1; i <= 6; i++) {
+              appendNewTaskTableElement(odfContentNodeElement, tableElement, i, "neuer Titel", "neue Beschreibung", 100);
+            };
+            // remove template
+            tableElement.parentNode.removeChild(tableElement);
+          });
 
-      saveAs(odfContainer, "/odf", "new.odt", function(error) {
-        if(error) console.log(error);
-      });
-    });
+          odfCanvas.refreshSize();
+
+          saveAs(odfContainer, "/odf", "new.odt", function(error) {
+            if(error) console.log(error);
+          });
+        });
+
+      }
+    };
+  });
