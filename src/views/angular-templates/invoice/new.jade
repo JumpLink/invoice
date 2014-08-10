@@ -1,6 +1,27 @@
 .container-fluid
   .row
     .col-xs-12
-      |test
+      form(role='form')
+        span(ng-repeat="task in invoice.task")
+          | {{$index + 1}}. Task
+          .form-group
+              label(for='invoice.task.{{$index + 1}}.title') title
+              input.form-control(id="#invoice-task-{{$index + 1}}-title", ng-model="task.title", type='text', placeholder='Enter title')
+          .form-group
+            label(for='invoice.task.{{$index + 1}}.description') description
+            input.form-control(id="#invoice-task-{{$index + 1}}-description", ng-model="task.description", type='text', placeholder='Enter description')
+          .form-group
+            label(for='invoice.task.{{$index + 1}}.cost') cost
+            input.form-control(id="#invoice-task-{{$index + 1}}-cost", ng-model="task.cost", type='text', placeholder='Enter cost')
+        .btn-group.btn-group-justified
+          .btn-group
+            button.btn.btn-default(type="button", ng-click="addTask()") Add task
+          .btn-group
+            button.btn.btn-default(type="button", ng-click="removeTask()") Remove task
+        .btn-group.btn-group-justified
+          .btn-group
+            button.btn.btn-default(type="button", ng-click="refresh()") Refresh
+          .btn-group
+            button.btn.btn-default(type="button", ng-click="save()") Save
     .col-xs-12
-      webodfview(data-file="/invoice.odt")
+      webodfview(data-file="/invoice.odt", data-invoice="invoice", data-save="save", data-refresh="refresh")

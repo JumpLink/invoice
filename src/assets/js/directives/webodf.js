@@ -1,5 +1,5 @@
 angular.module('webodf', [])
-  .directive('webodfview', function ($compile) {
+  .directive('webodfview', function ($compile, $window) {
 
     /*
      * Request to server with file stream of the document.
@@ -46,6 +46,7 @@ angular.module('webodf', [])
      * return: the new new custom user field variable element.
      */
     var newUserFieldDeclElement = function (odfContentNodeElement, name, value, type) {
+      //TODO just if not exists
       var textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
       var userFieldsDecls = odfContentNodeElement.getElementsByTagNameNS(textns, 'user-field-decls')[0];
       var newElement = document.createElementNS(textns, 'text:user-field-decl');
@@ -128,7 +129,7 @@ angular.module('webodf', [])
               break;
             }
           } else {
-            error = "wrong type";
+            error = "wrong type: "+name+" should be "+currentType+" but you want "+type;
             if(callback) callback(error);
             return error;
           }
@@ -150,20 +151,26 @@ angular.module('webodf', [])
      * This function updates the variable and inputs found in userFieldNodeElements.
      */
     var updateUserFieldElement = function (userFieldNodeElements, name, type, value, callback) {
-      var error, notFound = true;
-      updateUserFieldDeclElement(userFieldNodeElements.decl, name, type, value, function(error, userFieldDeclNodeElements){
-        if(error) {
-          if(callback) callback(error);
-          return error;
-        }
-        updateUserFieldGetElement(userFieldNodeElements.get, name, value, function(error, userFieldGetNodeElements) {
+      var error;
+      if(typeof value != undefined && value != null) {
+        updateUserFieldDeclElement(userFieldNodeElements.decl, name, type, value, function(error, userFieldDeclNodeElements){
           if(error) {
             if(callback) callback(error);
             return error;
           }
-          callback(error, {get: userFieldGetNodeElements, decl: userFieldDeclNodeElements});
+          updateUserFieldGetElement(userFieldNodeElements.get, name, value, function(error, userFieldGetNodeElements) {
+            if(error) {
+              if(callback) callback(error);
+              return error;
+            }
+            callback(error, {get: userFieldGetNodeElements, decl: userFieldDeclNodeElements});
+          });
         });
-      });
+      } else {
+        error = "value not set: "+name;
+        callback(error);
+      }
+
     }
 
     /*
@@ -218,10 +225,21 @@ angular.module('webodf', [])
       }
     }
 
+    var getTaskarea = function (odfContentNodeElement) {
+      var textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
+      var sections = odfContentNodeElement.getElementsByTagNameNS(textns, 'section');
+      for (var i = 0; i < sections.length; i++) {
+        var section = sections[i];
+        if(section.getAttribute('text:name') == 'taskarea')
+          return section;
+      };
+      return null;
+    }
+
     /*
-     * Create a new task table based on "templateElement" and inserts before "templateElement".
+     * Create a new task table based on "templateElement" and append as child to "taskarea".
      */
-    var appendNewTaskTableElement = function (odfContentNodeElement, templateElement, number, title, description, cost) {
+    var appendNewTaskTableElement = function (odfContentNodeElement, taskarea, templateElement, number, title, description, cost) {
       var textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
       var newTableElement = templateElement.cloneNode(true);
       var newTableUserFieldsGet = newTableElement.getElementsByTagNameNS(textns, 'user-field-get');
@@ -244,46 +262,188 @@ angular.module('webodf', [])
       newUserFieldDeclElement(odfContentNodeElement, "invoice.task."+number+".cost", cost, "string");
       redefineUserFieldGetElement(newTableUserFieldsGet, "invoice.task.cost", "invoice.task."+number+".cost", cost);
 
-      odfContentNodeElement.insertBefore(newTableElement, templateElement);
+      taskarea.appendChild(newTableElement);
+    }
+
+    var initializeWidth = function(odfCanvas, element) {
+      var paddingLeft = 0, paddingRight = 0, clientWidth = 0, innerWidth = 0;
+      if(window) {
+        paddingLeft = parseInt(window.getComputedStyle(element.parent()[0], null).getPropertyValue('padding-left'));
+        paddingRight = parseInt(window.getComputedStyle(element.parent()[0], null).getPropertyValue('padding-right'));
+      }
+      clientWidth = element.parent()[0].clientWidth;
+      innerWidth = clientWidth - paddingLeft - paddingRight;
+      odfCanvas.fitSmart(innerWidth); // set width to 100% of parent element
+    }
+
+    var updateDocument = function(odfContentNodeElement, invoice) {
+
+      var userFieldNodeElements = getUserFieldElements(odfContentNodeElement);
+
+      if(invoice) {
+        if(invoice.approver) {
+          updateUserFieldElement(userFieldNodeElements, 'invoice.approver.name', 'string', invoice.approver.name, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.approver.address1', 'string', invoice.approver.address1, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.approver.place', 'string', invoice.approver.place, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.approver.email', 'string', invoice.approver.email, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.approver.web', 'string', invoice.approver.web, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.approver.phone', 'string', invoice.approver.phone, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.approver.fax', 'string', invoice.approver.fax, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.approver.ustid', 'string', invoice.approver.ustid, function(error) {
+            if(error) console.log(error);
+          });
+          if(invoice.approver.bank) {
+            updateUserFieldElement(userFieldNodeElements, 'invoice.approver.bank.owner', 'string', invoice.approver.bank.owner, function(error) {
+              if(error) console.log(error);
+            });
+            updateUserFieldElement(userFieldNodeElements, 'invoice.approver.bank.name', 'string', invoice.approver.bank.name, function(error) {
+              if(error) console.log(error);
+            });
+            updateUserFieldElement(userFieldNodeElements, 'invoice.approver.bank.iban', 'string', invoice.approver.bank.iban, function(error) {
+              if(error) console.log(error);
+            });
+            updateUserFieldElement(userFieldNodeElements, 'invoice.approver.bank.bic', 'string', invoice.approver.bank.bic, function(error) {
+              if(error) console.log(error);
+            });
+          }
+        }
+
+        if(invoice.approver) {
+          updateUserFieldElement(userFieldNodeElements, 'invoice.recipient.name', 'string', invoice.recipient.name, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.recipient.address1', 'string', invoice.recipient.address1, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.recipient.place', 'string', invoice.recipient.place, function(error) {
+            if(error) console.log(error);
+          });
+        }
+
+        updateUserFieldElement(userFieldNodeElements, 'invoice.currency', 'string', invoice.currency, function(error) {
+          if(error) console.log(error);
+        });
+        updateUserFieldElement(userFieldNodeElements, 'invoice.date', 'string', invoice.date, function(error) {
+          if(error) console.log(error);
+        });
+        updateUserFieldElement(userFieldNodeElements, 'invoice.deadline', 'string', invoice.deadline, function(error) {
+          if(error) console.log(error);
+        });
+        updateUserFieldElement(userFieldNodeElements, 'invoice.number', 'float', invoice.number, function(error) {
+          if(error) console.log(error);
+        });
+
+        updateUserFieldElement(userFieldNodeElements, 'invoice.tax', 'string', invoice.tax, function(error) {
+          if(error) console.log(error);
+        });
+        updateUserFieldElement(userFieldNodeElements, 'invoice.taxrate', 'float', invoice.taxrate, function(error) {
+          if(error) console.log(error);
+        });
+        updateUserFieldElement(userFieldNodeElements, 'invoice.amount', 'string', invoice.amount, function(error) {
+          if(error) console.log(error);
+        });
+        updateUserFieldElement(userFieldNodeElements, 'invoice.totalamount', 'string', invoice.totalamount, function(error) {
+          if(error) console.log(error);
+        });
+
+        if(invoice.translate) {
+          updateUserFieldElement(userFieldNodeElements, 'invoice.translate.invoice', 'string', invoice.translate.invoice, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.translate.amount', 'string', invoice.translate.amount, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.translate.totalamount', 'string', invoice.translate.totalamount, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.translate.tax', 'string', invoice.translate.tax, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.translate.phone', 'string', invoice.translate.phone, function(error) {
+            if(error) console.log(error);
+          });
+          updateUserFieldElement(userFieldNodeElements, 'invoice.translate.fax', 'string', invoice.translate.fax, function(error) {
+            if(error) console.log(error);
+          });
+        }
+      }
+    }
+
+    var removeAllChilds = function (element) {
+      while (element.firstChild) {
+          element.removeChild(element.firstChild);
+      }
+    }
+
+    var updateDocumentTasks = function(odfContentNodeElement, templateTaskTableElement, tasks) {
+      var taskareaElement = getTaskarea(odfContentNodeElement);
+      // remove all old tasks be shure to save the template task before
+      removeAllChilds(taskareaElement);
+      for (var i = 0; i < tasks.length; i++) {
+        appendNewTaskTableElement(odfContentNodeElement, taskareaElement, templateTaskTableElement, i+1, tasks[i].title, tasks[i].description, tasks[i].cost);
+      };
     }
 
     return {
       restrict: 'E',
-      scope: {file : "@"},
-      link: function (scope, element, attrs) {
+      scope: {file : "@", invoice: "=", save: "=", refresh: "="},
+      link: function ($scope, $element, $attrs) {
 
         var nid = 'odt' + Math.floor((Math.random()*100)+1);
-        element.attr('id', nid);
-        var odfCanvas = new odf.OdfCanvas(element[0]);
-        odfCanvas.load(scope.file);
+        $element.attr('id', nid);
+        var odfCanvas = new odf.OdfCanvas($element[0]);
+        odfCanvas.load($scope.file);
 
         // Callback fired after odf document is ready
         odfCanvas.addListener("statereadychange", function () {
           var odfContainer = odfCanvas.odfContainer();
-          //- var odfElement = odfCanvas.getElement();
-          //- var odfDocument = odfElement.getElementsByTagName('document')[0];
           var odfContentNodeElement = odfContainer.getContentElement();
-          var zoomHelper = odfCanvas.getZoomHelper();
-          zoomHelper.setZoomLevel(0.8);
+          getTableByName(getTables(odfCanvas.odfContainer().getContentElement()), 'tasktable', function(error, templateTaskTableElement) {
+            // update width on resize
+            if(false) { // TODO
+              angular.element($window).bind('resize', function() {
+                initializeWidth(odfCanvas, $element);
+                $scope.$apply();
+              });
+            }
 
-          var userFieldNodeElements = getUserFieldElements(odfContentNodeElement);
-          updateUserFieldElement(userFieldNodeElements, 'invoice.currency', 'string', 'Euro', function(error) {
-            if(error) console.log(error);
-          });
+            initializeWidth(odfCanvas, $element);
 
-          var tables = getTables(odfContentNodeElement);
-          getTableByName(tables, 'tasktable', function(error, tableElement) {
-            for (var i = 1; i <= 6; i++) {
-              appendNewTaskTableElement(odfContentNodeElement, tableElement, i, "neuer Titel", "neue Beschreibung", 100);
-            };
-            // remove template
-            tableElement.parentNode.removeChild(tableElement);
-          });
+            // $scope.$watchCollection('invoice', function(newNames, oldNames) {
+            //   updateDocument(odfContentNodeElement, newNames);
+            // });
 
-          odfCanvas.refreshSize();
+            // $scope.$watchCollection('invoice.task', function(newValues, oldValues) {
+            //   updateDocumentTasks(odfContentNodeElement, templateTaskTableElement, newValues);
+            // });
 
-          saveAs(odfContainer, "/odf", "new.odt", function(error) {
-            if(error) console.log(error);
+            $scope.refresh = function () {
+              updateDocument(odfContentNodeElement, $scope.invoice);
+              updateDocumentTasks(odfContentNodeElement, templateTaskTableElement, $scope.invoice.task);
+            }
+
+            odfCanvas.refreshSize();
+
+            $scope.save = function () {
+              console.log("save");
+              saveAs(odfContainer, "/odf", "new.odt", function(error) {
+                if(error) console.log(error);
+              });
+            }
           });
         });
 
