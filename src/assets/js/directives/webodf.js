@@ -35,14 +35,13 @@ angular.module('webodf', [])
     var getUserFieldElements = function (odfParentNodeElement, callback) {
       var textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
       var userFieldsGet = odfParentNodeElement.getElementsByTagNameNS(textns, 'user-field-get');
-      //- var userFieldsDecl = odfParentNodeElement.getElementsByTagNameNS(textns, 'user-field-decl');
       var userFieldsDecl = odfParentNodeElement.getElementsByTagNameNS(textns, 'user-field-decls')[0].childNodes;
       if(callback) callback(null, {get: UserFieldsGet, decl: UserFieldsDecl});
       return {get: userFieldsGet, decl: userFieldsDecl};
     }
 
     /*
-     * Define new custom user field variable.
+     * Create new custom user field variable.
      * return: the new new custom user field variable element.
      */
     var newUserFieldDeclElement = function (odfContentNodeElement, name, value, type) {
@@ -71,19 +70,18 @@ angular.module('webodf', [])
      * This function updates and renames the custom user field inputs found in userFieldGetNodeElements
      */
     var redefineUserFieldGetElement = function (userFieldGetNodeElements, name, newname, value, callback) {
-      var error;
-
+      var renamed = 0;
       for (var i = 0; i < userFieldGetNodeElements.length; i++) {
         var element = userFieldGetNodeElements[i];
         var currentName = element.getAttribute('text:name');
         if(currentName === name) {
           element.textContent = value;
           element.setAttribute('text:name', newname);
+          renamed++;
         }
       };
-
-      if(callback) callback(error, userFieldGetNodeElements);
-      return error;
+      if(callback) callback(renamed, userFieldGetNodeElements);
+      return renamed;
     }
 
     /*
@@ -91,23 +89,25 @@ angular.module('webodf', [])
      * This function updates the inputs that are equal to "name" in "userFieldGetNodeElements" with "value".
      */
     var updateUserFieldGetElement = function (userFieldGetNodeElements, name, value, callback) {
-      var error;
+      var founds = 0;
 
       for (var i = 0; i < userFieldGetNodeElements.length; i++) {
         var element = userFieldGetNodeElements[i];
         var currentName = element.getAttribute('text:name');
         if(currentName === name) {
           element.textContent = value;
+          founds++;
         }
       };
 
-      if(callback) callback(error, userFieldGetNodeElements);
-      return error;
+      if(callback) callback(founds, userFieldGetNodeElements);
+      return founds;
     }
 
     /*
      * Update custom user field variables (custom user field decl elements).
      * This function updates the variables that are equal to "name" in "userFieldDeclNodeElements" with "value".
+     * If the variable is not defined the function returns an error or call the calback with an error.
      */
     var updateUserFieldDeclElement = function (userFieldDeclNodeElements, name, type, value, callback) {
       var error, notFound = true;
@@ -136,14 +136,10 @@ angular.module('webodf', [])
         }
       };
 
-      if(notFound) {
-        error = "not found";
-        if(callback) callback(error);
-        return error;
-      }
+      if(notFound) {error = "not found";}
 
       if(callback) callback(error, userFieldDeclNodeElements);
-
+      return error;
     }
 
     /*
@@ -158,12 +154,8 @@ angular.module('webodf', [])
             if(callback) callback(error);
             return error;
           }
-          updateUserFieldGetElement(userFieldNodeElements.get, name, value, function(error, userFieldGetNodeElements) {
-            if(error) {
-              if(callback) callback(error);
-              return error;
-            }
-            callback(error, {get: userFieldGetNodeElements, decl: userFieldDeclNodeElements});
+          updateUserFieldGetElement(userFieldNodeElements.get, name, value, function(founds, userFieldGetNodeElements) {
+            callback(null, {get: userFieldGetNodeElements, decl: userFieldDeclNodeElements});
           });
         });
       } else {
@@ -177,21 +169,21 @@ angular.module('webodf', [])
      * Get all tables from parent node
      * return: array of table nodes
      */
-    var getTables = function(odfParentNodeElement, callback) {
+    var getTableElements = function(odfParentNodeElement, callback) {
       var tablens = 'urn:oasis:names:tc:opendocument:xmlns:table:1.0';
-      var tables = odfParentNodeElement.getElementsByTagNameNS(tablens, 'table');
-      if(callback) callback(null, tables);
-      return tables;
+      var tableElements = odfParentNodeElement.getElementsByTagNameNS(tablens, 'table');
+      if(callback) callback(null, tableElements);
+      return tableElements;
     }
 
     /*
      * Get table node by table name.
      * Required: array of table nodes
      */
-    var getTableByName = function(tables, name, callback) {
+    var getTableElementByName = function(tableElements, name, callback) {
       var error, notFound = true;
-      for (var i = 0; i < tables.length; i++) {
-        var element = tables[i];
+      for (var i = 0; i < tableElements.length; i++) {
+        var element = tableElements[i];
         var currentName = element.getAttribute('table:name');
         if(currentName === name) {
           notFound = false;
@@ -412,7 +404,7 @@ angular.module('webodf', [])
         odfCanvas.addListener("statereadychange", function () {
           var odfContainer = odfCanvas.odfContainer();
           var odfContentNodeElement = odfContainer.getContentElement();
-          getTableByName(getTables(odfCanvas.odfContainer().getContentElement()), 'tasktable', function(error, templateTaskTableElement) {
+          getTableElementByName(getTableElements(odfCanvas.odfContainer().getContentElement()), 'tasktable', function(error, templateTaskTableElement) {
             // update width on resize
             if(false) { // TODO
               angular.element($window).bind('resize', function() {
