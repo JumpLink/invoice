@@ -1,6 +1,16 @@
 invoice
 =======
 
+## Try it out
+```
+git clone https://github.com/JumpLink/invoice.git
+cd invoice/src
+npm install
+bower install
+node app
+```
+and visit http://localhost:1337/
+
 ## Custom user fields
 ```
 invoice.approver.name           rechnung.genehmiger.name / firmenname
