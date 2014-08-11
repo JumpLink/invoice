@@ -36,7 +36,15 @@ module.exports.routes = {
     view: 'index'
   },
 
-  'put /odf/:filename': 'OdfController.create',
+  '/singedin': {
+    view: 'index'
+  },
+
+  '/signin': {
+    view: 'signin'
+  },
+
+  // 'put /document/:filename': 'DocumentController.upload',
 
 
   // If a request to a URL doesn't match any of the custom routes above,

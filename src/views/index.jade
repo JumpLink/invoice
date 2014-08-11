@@ -7,9 +7,9 @@ html(lang="en", ng-app="jumplink.invoice")
     meta(name="viewport",content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no")
 
     // Bring in the socket.io client
-    script(type="text/javascript", src="/js/dependencies/socket.io.js")
-    // then beef it up with some convenience logic for talking to Sails.js'
-    script(type="text/javascript", src="/js/dependencies/sails.io.legany.js")
+    //- script(type="text/javascript", src="/js/dependencies/socket.io.js")
+    //- // then beef it up with some convenience logic for talking to Sails.js'
+    //- script(type="text/javascript", src="/js/dependencies/sails.io.legany.js")
 
     // Stylesheets
     link(href='/styles/importer.css', rel='stylesheet')
@@ -24,15 +24,20 @@ html(lang="en", ng-app="jumplink.invoice")
     script(type="text/javascript", src="/third-party/angular-sanitize/angular-sanitize.js")
     script(type="text/javascript", src="/third-party/angular-animate/angular-animate.js")
     script(type="text/javascript", src="/third-party/angular-strap/dist/angular-strap.js")
-    script(type="text/javascript", src="/third-party/angular-sails/dist/angular-sails.js")
 
+    //- Bring in the socket.io client
+    script(type="text/javascript", src="/js/dependencies/socket.io.js")
+    //- then beef it up with some convenience logic for talking to Sails.js'
+    script(type="text/javascript", src="/third-party/sails.io.js/sails.io.js")
+    //- and for angular
+    script(type="text/javascript", src="/third-party/angularSails/dist/ngsails.io.js")
     script(type="text/javascript", src="/third-party/moment/moment.js")
     script(type="text/javascript", src="/third-party/angular-moment/angular-moment.js")
     script(type="text/javascript", src="/third-party/qrcode-generator/js/qrcode.js")
     script(type="text/javascript", src="/third-party/angular-qrcode/qrcode.js")
     script(src='/third-party/webodf/webodf-debug.js', type='text/javascript', charset='utf-8')
 
-    script(type="text/javascript", src="/js/main.js")
+    script(type="text/javascript", src="/js/app.js")
     script(type="text/javascript", src="/js/controllers.js")
     script(type="text/javascript", src="/js/directives/webodf.js")
     script(type="text/javascript", src="/js/config.js")

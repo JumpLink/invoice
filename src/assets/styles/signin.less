@@ -1,0 +1,107 @@
+//@import "./../third-party/bootstrap/less/general.less";
+
+@bower_components-path: "assets/bower_components";
+@bootstrap-less-path: "@{bower_components-path}/bootstrap/less";
+@angular-toggle-switch-path: "@{bower_components-path}/angular-toggle-switch";
+@colorpicker-css-path: "@{bower_components-path}/angular-bootstrap-colorpicker/css";
+@font-awesome-path: "@{bower_components-path}/components-font-awesome";
+@font-awesome-less-path: "@{font-awesome-path}/less";
+@angular-snap-path: "@{bower_components-path}/angular-snap";
+@angular-carousel-path: "@{bower_components-path}/revolunet-angular-carousel/dist";
+@angular-motion-less-path: "@{bower_components-path}/angular-motion/src";
+@angular-motion-css-path: "@{bower_components-path}/angular-motion/dist/angular-motion.css";
+@angular-loading-bar-css-path: "@{bower_components-path}/angular-loading-bar/build/loading-bar.css";
+
+// Core variables and mixins
+@import "./../third-party/bootstrap/less/variables.less";
+@import "./../third-party/bootstrap/less/mixins.less";
+
+// Reset
+@import "./../third-party/bootstrap/less/normalize.less";
+//@import "./../third-party/bootstrap/less/print.less";
+
+// Core CSS
+@import "./../third-party/bootstrap/less/scaffolding.less";
+@import "./../third-party/bootstrap/less/type.less";
+//@import "./../third-party/bootstrap/less/code.less";
+@import "./../third-party/bootstrap/less/grid.less";
+//@import "./../third-party/bootstrap/less/tables.less";
+@import "./../third-party/bootstrap/less/forms.less";
+@import "./../third-party/bootstrap/less/buttons.less";
+
+
+.form-signin
+{
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading, .form-signin .checkbox
+{
+    margin-bottom: 10px;
+}
+.form-signin .checkbox
+{
+    font-weight: normal;
+}
+.form-signin .form-control
+{
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.form-signin .form-control:focus
+{
+    z-index: 2;
+}
+.form-signin input[type="text"]
+{
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"]
+{
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.account-wall
+{
+    margin-top: 20px;
+    padding: 40px 0px 20px 0px;
+    background-color: #f7f7f7;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+.login-title
+{
+    color: #555;
+    font-size: 18px;
+    font-weight: 400;
+    display: block;
+}
+.profile-img
+{
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+.need-help
+{
+    margin-top: 10px;
+}
+.new-account
+{
+    display: block;
+    margin-top: 10px;
+}

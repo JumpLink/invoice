@@ -6,7 +6,7 @@ jumplink.invoice = angular.module('jumplink.invoice', [
   'ngRoute'
   , 'ngAnimate'
   , 'ngSanitize'
-  , 'ngSails'
+  , 'sails.io'
   , 'monospaced.qrcode'
   , 'angularMoment'
   , 'mgcrea.ngStrap'

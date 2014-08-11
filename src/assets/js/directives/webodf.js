@@ -1,5 +1,5 @@
 angular.module('webodf', [])
-  .directive('webodfview', function ($compile, $window) {
+  .directive('webodfview', function ($compile, $window, $sailsSocket) {
 
     /*
      * Request to server with file stream of the document.
@@ -9,11 +9,19 @@ angular.module('webodf', [])
         var path = folder+"/"+filename;
         var blob = new Blob([data.buffer], {type : 'application/vnd.oasis.opendocument.'+type});
         var formData = new FormData();
-        formData.append("WebODF", blob, filename);
+        formData.append("documents", blob, filename);
 
-        var request = new XMLHttpRequest();
-        request.open("PUT", path);
-        request.send(formData);
+        var req = new XMLHttpRequest();
+        req.open("PUT", path);
+        req.send(formData);
+        req.onload = function(res) {
+          // $sails.put("/convert/", {translations: $scope.translations}, function (response) {
+          var data = JSON.parse(req.responseText);
+          console.log(data);
+          $sailsSocket.put("/document/convert/", {filename: data.files[0].filename, extension: 'pdf'}, function (response) {
+            console.log(response);
+          });
+        }
       } else {
         callback('The File APIs are not fully supported in this browser.');
       }
@@ -90,7 +98,6 @@ angular.module('webodf', [])
      */
     var updateUserFieldGetElement = function (userFieldGetNodeElements, name, value, callback) {
       var founds = 0;
-
       for (var i = 0; i < userFieldGetNodeElements.length; i++) {
         var element = userFieldGetNodeElements[i];
         var currentName = element.getAttribute('text:name');
@@ -99,7 +106,6 @@ angular.module('webodf', [])
           founds++;
         }
       };
-
       if(callback) callback(founds, userFieldGetNodeElements);
       return founds;
     }
@@ -107,7 +113,7 @@ angular.module('webodf', [])
     /*
      * Update custom user field variables (custom user field decl elements).
      * This function updates the variables that are equal to "name" in "userFieldDeclNodeElements" with "value".
-     * If the variable is not defined the function returns an error or call the calback with an error.
+     * If the variable is not defined/found the function returns an error or call the calback with an error.
      */
     var updateUserFieldDeclElement = function (userFieldDeclNodeElements, name, type, value, callback) {
       var error, notFound = true;
@@ -135,16 +141,14 @@ angular.module('webodf', [])
           }
         }
       };
-
       if(notFound) {error = "not found";}
-
       if(callback) callback(error, userFieldDeclNodeElements);
       return error;
     }
 
     /*
      * Update custom user field variables (custom user field decl elements) and inputs (custom user field get elements).
-     * This function updates the variable and inputs found in userFieldNodeElements.
+     * This function updates the variable and inputs found in userFieldNodeElements, but only if the UserFieldDeclElement is found / variable is set.
      */
     var updateUserFieldElement = function (userFieldNodeElements, name, type, value, callback) {
       var error;
@@ -162,7 +166,6 @@ angular.module('webodf', [])
         error = "value not set: "+name;
         callback(error);
       }
-
     }
 
     /*
@@ -432,7 +435,7 @@ angular.module('webodf', [])
 
             $scope.save = function () {
               console.log("save");
-              saveAs(odfContainer, "/odf", "new.odt", function(error) {
+              saveAs(odfContainer, "/document/upload", "new.odt", function(error) {
                 if(error) console.log(error);
               });
             }
