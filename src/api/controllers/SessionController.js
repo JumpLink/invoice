@@ -78,6 +78,12 @@ module.exports = {
 
         delete user.password; // TODO do this in model?
         //return res.json({authenticated:true,user:user});
+        if(req.session.lastUrl) {
+          var url = req.session.lastUrl;
+          delete req.session.lastUrl;
+          return res.redirect(url);
+        }
+
         return res.redirect('singedin');
 
       });

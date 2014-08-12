@@ -20,6 +20,8 @@
     "angular-moment": "~0.8.0",
     "angular-route": "~1.2.21",
     "angular-sanitize": "~1.2.21",
-    "angularSails": "*"
+    "angularSails": "*",
+    "angular-translate": "~2.2.0",
+    "angular-translate-loader-url": "~2.2.0"
   }
 }

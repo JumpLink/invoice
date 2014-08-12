@@ -22,11 +22,27 @@ module.exports = function forbidden (data, options) {
   // Set status code
   res.status(403);
 
+  var forbiddenError = [{
+    name: 'forbidden',
+    message: 'You are not permitted to perform this action.'
+  }];
+
   // Log error to console
   if (data !== undefined) {
+    forbiddenError[0].message = data;
     sails.log.verbose('Sending 403 ("Forbidden") response: \n',data);
+  } else {
+    sails.log.verbose('Sending 403 ("Forbidden") response');
   }
-  else sails.log.verbose('Sending 403 ("Forbidden") response');
+
+  req.session.flash = {
+    error: forbiddenError
+  }
+
+  req.session.lastUrl = req.url;
+
+  return res.redirect('signin');
+  // TODO remove buttom code
 
   // Only include errors in response if application environment
   // is not set to 'production'.  In production, we shouldn't

@@ -27,11 +27,24 @@ module.exports = function notFound (data, options) {
   // Set status code
   res.status(404);
 
+  var notFoundError = [{
+    name: 'notFound',
+    message: url+' not found (404)'
+  }];
+
   // Log error to console
   if (data !== undefined) {
+    notFoundError[0].message = data;
     sails.log.verbose('Sending 404 ("Not Found") response: \n',data);
   }
   else sails.log.verbose('Sending 404 ("Not Found") response');
+
+  req.session.flash = {
+    error: notFoundError
+  }
+
+  return res.redirect('signin');
+  // TODO remove buttom code
 
   // Only include errors in response if application environment
   // is not set to 'production'.  In production, we shouldn't

@@ -17,7 +17,7 @@ module.exports = {
    * legacy html page to allow browser to auto-fill e-mail and password
    */
   signin: function(req, res, next) {
-    res.view('signin');
+    res.view('signin', { flash: req.session.flash });
   }
 };
 

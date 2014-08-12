@@ -11,4 +11,5 @@ jumplink.invoice = angular.module('jumplink.invoice', [
   , 'angularMoment'
   , 'mgcrea.ngStrap'
   , 'webodf'
+  , 'pascalprecht.translate'
 ]);
