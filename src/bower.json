@@ -22,6 +22,8 @@
     "angular-sanitize": "~1.2.21",
     "angularSails": "*",
     "angular-translate": "~2.2.0",
-    "angular-translate-loader-url": "~2.2.0"
+    "angular-translate-loader-url": "~2.2.0",
+    "angular-i18n": "~1.2.22",
+    "angular-dynamic-locale": "~0.1.17"
   }
 }
