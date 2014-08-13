@@ -2,7 +2,7 @@ jumplink.invoice.controller('IndexController', function($scope) {
 
 });
 
-jumplink.invoice.controller('InvoiceController', function($scope) {
+jumplink.invoice.controller('InvoiceController', function($scope, $filter, moment) {
 
   var bank = {
     owner: "Pascal Garber"
@@ -45,12 +45,15 @@ jumplink.invoice.controller('InvoiceController', function($scope) {
     , fax: "Fax"
   }
 
+  var now = moment();
+  var deadline = moment().add('weeks', 2);
+
   $scope.invoice = {
     approver: approver
     , recipient: recipient
     , currency: "Euro"
-    , date: new Date()
-    , deadline: new Date()
+    , date: $filter('amDateFormat')(now, 'dddd, Do MMMM YYYY')
+    , deadline: $filter('amDateFormat')(deadline, 'dddd, Do MMMM YYYY')
     , task: task
     , number: 1
     , tax: 0
@@ -59,6 +62,7 @@ jumplink.invoice.controller('InvoiceController', function($scope) {
     , totalamount: 100
     , translate: translate
   }
+
 
   $scope.addTask = function() {
     task.push({
