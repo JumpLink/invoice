@@ -24,12 +24,12 @@ module.exports = function forbidden (data, options) {
 
   var forbiddenError = [{
     name: 'forbidden',
-    message: 'You are not permitted to perform this action.'
+    message: req.__('You are not permitted to perform this action.')
   }];
 
   // Log error to console
   if (data !== undefined) {
-    forbiddenError[0].message = data;
+    forbiddenError[0].message = req.__(data);
     sails.log.verbose('Sending 403 ("Forbidden") response: \n',data);
   } else {
     sails.log.verbose('Sending 403 ("Forbidden") response');
@@ -41,6 +41,11 @@ module.exports = function forbidden (data, options) {
 
   req.session.lastUrl = req.url;
 
+  // If the user-agent wants JSON, always respond with JSON
+  if (req.wantsJSON) {
+    return res.jsonx(forbiddenError);
+  }
+
   return res.redirect('signin');
   // TODO remove buttom code
 
@@ -49,11 +54,6 @@ module.exports = function forbidden (data, options) {
   // send back any identifying information about errors.
   if (sails.config.environment === 'production') {
     data = undefined;
-  }
-
-  // If the user-agent wants JSON, always respond with JSON
-  if (req.wantsJSON) {
-    return res.jsonx(data);
   }
 
   // If second argument is a string, we take that to mean it refers to a view.

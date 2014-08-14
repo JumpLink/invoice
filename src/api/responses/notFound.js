@@ -34,13 +34,18 @@ module.exports = function notFound (data, options) {
 
   // Log error to console
   if (data !== undefined) {
-    notFoundError[0].message = data;
+    notFoundError[0].message = req.__(data);
     sails.log.verbose('Sending 404 ("Not Found") response: \n',data);
   }
   else sails.log.verbose('Sending 404 ("Not Found") response');
 
   req.session.flash = {
     error: notFoundError
+  }
+
+  // If the user-agent wants JSON, always respond with JSON
+  if (req.wantsJSON) {
+    return res.jsonx(notFoundError);
   }
 
   return res.redirect('signin');
@@ -51,11 +56,6 @@ module.exports = function notFound (data, options) {
   // send back any identifying information about errors.
   if (sails.config.environment === 'production') {
     data = undefined;
-  }
-
-  // If the user-agent wants JSON, always respond with JSON
-  if (req.wantsJSON) {
-    return res.jsonx(data);
   }
 
   // If second argument is a string, we take that to mean it refers to a view.
