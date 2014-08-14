@@ -3,32 +3,31 @@ if (typeof jumplink === 'undefined') {
 }
 
 jumplink.invoice = angular.module('jumplink.invoice', [
-  'ngRoute'
+  'ui.router'
   , 'ngAnimate'
   , 'ngSanitize'
   , 'sails.io'
   , 'monospaced.qrcode'
   , 'angularMoment'
-  , 'mgcrea.ngStrap'
   , 'webodf'
   , 'pascalprecht.translate'  // localization
   , 'tmh.dynamicLocale'       // localization
 ]);
 
-jumplink.invoice.config( function($routeProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider) {
-  $routeProvider
-  .when('/', {
-    templateUrl: '/'
+jumplink.invoice.config( function($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider) {
+
+  $urlRouterProvider.otherwise('/');
+
+  $stateProvider
+  .state('home', {
+    url: '/'
+    , templateUrl: '/'
     , controller: 'IndexController'
-    , reloadOnSearch: false
   })
-  .when('/invoice/new', {
-    templateUrl: '/invoice/new'
+  .state('invoice', {
+    url: '/invoice/new'
+    , templateUrl: '/invoice/new'
     , controller: 'InvoiceController'
-    , reloadOnSearch: false
-  })
-  .otherwise({
-    redirectTo: '/'
   })
   ;
 

@@ -14,16 +14,15 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.2.0",
-    "angular-strap": "~2.0.5",
     "angular-qrcode": "~3.1.0",
     "angular-moment": "~0.8.0",
-    "angular-route": "~1.2.21",
-    "angular-sanitize": "~1.2.21",
+    "angular-route": "~1.2.22",
+    "angular-sanitize": "~1.2.22",
     "angularSails": "*",
     "angular-translate": "~2.2.0",
     "angular-translate-loader-url": "~2.2.0",
     "angular-i18n": "~1.2.22",
-    "angular-dynamic-locale": "~0.1.17"
+    "angular-dynamic-locale": "~0.1.17",
+    "ionic": "driftyco/ionic-bower#~1.0.0-beta.11-nightly-360"
   }
 }

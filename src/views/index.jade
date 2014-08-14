@@ -14,12 +14,11 @@ html(lang="en", ng-app="jumplink.invoice")
     script(type="text/ng-template", id="/invoice/new"): include angular-templates/invoice/new.jade
 
   body()
-    span(ng-view)
+    span(ui-view)
     script(type="text/javascript", src="/third-party/angular/angular.js")
-    script(type="text/javascript", src="/third-party/angular-route/angular-route.js")
+    script(type="text/javascript", src="/third-party/angular-ui-router/release/angular-ui-router.js")
     script(type="text/javascript", src="/third-party/angular-sanitize/angular-sanitize.js")
     script(type="text/javascript", src="/third-party/angular-animate/angular-animate.js")
-    script(type="text/javascript", src="/third-party/angular-strap/dist/angular-strap.js")
     script(type="text/javascript", src="/third-party/angular-dynamic-locale/src/tmhDynamicLocale.js")
 
     //- Bring in the socket.io client
@@ -37,7 +36,6 @@ html(lang="en", ng-app="jumplink.invoice")
     //- localisation
     script(src='/third-party/angular-translate/angular-translate.js', type='text/javascript')
     script(src='/third-party/angular-translate-loader-url/angular-translate-loader-url.js', type='text/javascript')
-    script(type="text/javascript", src="/third-party/angular-strap/dist/angular-strap.js")
     script(type="text/javascript", src="/third-party/moment/lang/de.js")
 
     script(type="text/javascript", src="/js/app.js")
