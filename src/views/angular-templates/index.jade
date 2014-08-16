@@ -1,1 +1,8 @@
-a(ui-sref="invoice") /invoice/new
+ion-header-bar.bar-assertive(align-title='center')
+  .buttons
+    button.button(ng-click='doSomething()') Left Button
+  h1.title Title!
+  .buttons
+    button.button Right Button
+ion-content
+  a(ui-sref="invoice") /invoice/new

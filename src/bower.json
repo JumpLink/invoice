@@ -23,6 +23,6 @@
     "angular-translate-loader-url": "~2.2.0",
     "angular-i18n": "~1.2.22",
     "angular-dynamic-locale": "~0.1.17",
-    "ionic": "driftyco/ionic-bower#~1.0.0-beta.11-nightly-360"
+    "ionic": "1.0.0-beta.11"
   }
 }

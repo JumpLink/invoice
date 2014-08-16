@@ -10,24 +10,39 @@ jumplink.invoice = angular.module('jumplink.invoice', [
   , 'monospaced.qrcode'
   , 'angularMoment'
   , 'webodf'
+  , 'ionic'
   , 'pascalprecht.translate'  // localization
   , 'tmh.dynamicLocale'       // localization
 ]);
 
 jumplink.invoice.config( function($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider) {
 
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/app/invoice/new');
 
   $stateProvider
-  .state('home', {
-    url: '/'
-    , templateUrl: '/'
+  .state('app', {
+    url: '/app'
+    , abstract: true
+    , templateUrl: "menu"
     , controller: 'IndexController'
   })
-  .state('invoice', {
+  .state('app.new-invoice', {
     url: '/invoice/new'
-    , templateUrl: '/invoice/new'
-    , controller: 'InvoiceController'
+    , views: {
+      'menuContent' : {
+        templateUrl: '/invoice/new'
+        , controller: 'InvoiceController'
+      }
+    }
+  })
+  .state('app.new-invoice.tasks', {
+    url: '/invoice/new/tasks'
+    , views: {
+      'menuContent' : {
+        templateUrl: '/invoice/new/tasks'
+        , controller: 'InvoiceController'
+      }
+    }
   })
   ;
 

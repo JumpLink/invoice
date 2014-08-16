@@ -1,0 +1,20 @@
+ion-side-menus
+  ion-pane(ion-side-menu-content='ion-side-menu-content')
+    ion-nav-bar.bar-stable.nav-title-slide-ios7
+      ion-nav-back-button.button-clear
+        i.icon.ion-ios7-arrow-back
+        | Back
+    ion-nav-view(name='menuContent', animation='slide-left-right')
+  ion-side-menu(side='left')
+    header.bar.bar-header.bar-stable
+      h1.title Left
+    ion-content.has-header
+      ion-list
+        ion-item(nav-clear='nav-clear', menu-close='menu-close', href='/signin')
+          | Login
+        ion-item(nav-clear='nav-clear', menu-close='menu-close', href='/app/invoice/new')
+          | invoice
+        ion-item(nav-clear='nav-clear', menu-close='menu-close', href='/app/invoice/new')
+          | Browse
+        ion-item(nav-clear='nav-clear', menu-close='menu-close', href='/app/invoice/new')
+          | Playlists

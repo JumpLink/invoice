@@ -33,8 +33,10 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': 'ViewController.singlePage',
+  '/app*': 'ViewController.singlePage',
 
-  '/invoice/new': 'ViewController.singlePage',
+
+  // '/invoice/new': 'ViewController.singlePage',
 
   '/singedin': 'ViewController.singlePage',
 

@@ -397,48 +397,43 @@ angular.module('webodf', [])
       restrict: 'E',
       scope: {file : "@", invoice: "=", save: "=", refresh: "="},
       link: function ($scope, $element, $attrs) {
+        var nid, odfCanvas, templateTaskTableElement, odfContentNodeElement, odfContainer;
 
-        var nid = 'odt' + Math.floor((Math.random()*100)+1);
+        nid = 'odt' + Math.floor((Math.random()*100)+1);
         $element.attr('id', nid);
-        var odfCanvas = new odf.OdfCanvas($element[0]);
+        odfCanvas = new odf.OdfCanvas($element[0]);
         odfCanvas.load($scope.file);
+
+        $scope.save = function () {
+          console.log("save");
+          saveAs(odfContainer, "/document/upload", "new.odt", function(error) {
+            if(error) console.log(error);
+          });
+        }
+
+        $scope.refresh = function () {
+          console.log("refresh");
+          updateDocument(odfContentNodeElement, $scope.invoice);
+          updateDocumentTasks(odfContentNodeElement, templateTaskTableElement, $scope.invoice.task);
+        }
+
+        angular.element($window).bind('resize', function() {
+          initializeWidth(odfCanvas, $element);
+          $scope.$apply();
+        });
 
         // Callback fired after odf document is ready
         odfCanvas.addListener("statereadychange", function () {
-          var odfContainer = odfCanvas.odfContainer();
-          var odfContentNodeElement = odfContainer.getContentElement();
-          getTableElementByName(getTableElements(odfCanvas.odfContainer().getContentElement()), 'tasktable', function(error, templateTaskTableElement) {
-            // update width on resize
-            if(false) { // TODO
-              angular.element($window).bind('resize', function() {
-                initializeWidth(odfCanvas, $element);
-                $scope.$apply();
-              });
-            }
 
-            initializeWidth(odfCanvas, $element);
+          odfCanvas.refreshSize();
+          initializeWidth(odfCanvas, $element);
 
-            // $scope.$watchCollection('invoice', function(newNames, oldNames) {
-            //   updateDocument(odfContentNodeElement, newNames);
-            // });
+          odfContainer = odfCanvas.odfContainer();
+          odfContentNodeElement = odfContainer.getContentElement();
 
-            // $scope.$watchCollection('invoice.task', function(newValues, oldValues) {
-            //   updateDocumentTasks(odfContentNodeElement, templateTaskTableElement, newValues);
-            // });
-
-            $scope.refresh = function () {
-              updateDocument(odfContentNodeElement, $scope.invoice);
-              updateDocumentTasks(odfContentNodeElement, templateTaskTableElement, $scope.invoice.task);
-            }
-
-            odfCanvas.refreshSize();
-
-            $scope.save = function () {
-              console.log("save");
-              saveAs(odfContainer, "/document/upload", "new.odt", function(error) {
-                if(error) console.log(error);
-              });
-            }
+          // get task template and store ot globaly
+          getTableElementByName(getTableElements(odfCanvas.odfContainer().getContentElement()), 'tasktable', function(error, taskTableElement) {
+            templateTaskTableElement = taskTableElement;
           });
         });
 

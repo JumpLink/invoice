@@ -62,7 +62,18 @@ jumplink.invoice.controller('InvoiceController', function($scope, $filter, momen
     , totalamount: 100
     , translate: translate
   }
+  $scope.webodf = {
+    save: null,
+    refresh: null
+  };
 
+  $scope.save = function() {
+    $scope.webodf.save();
+  }
+
+  $scope.refresh = function() {
+    $scope.webodf.refresh();
+  }
 
   $scope.addTask = function() {
     task.push({
