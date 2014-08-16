@@ -3,22 +3,32 @@ jumplink.invoice.controller('IndexController', function($scope) {
 });
 
 jumplink.invoice.controller('InvoiceNavController', function($scope, $ionicNavBarDelegate) {
+  $scope.showBackButton = function () {
+    console.log($ionicNavBarDelegate.showBackButton());
+    return $ionicNavBarDelegate.showBackButton();
+  }
 });
 
-jumplink.invoice.controller('InvoiceCustomerController', function($scope, $filter, moment) {
-
+jumplink.invoice.controller('InvoiceCustomerController', function($scope, $ionicNavBarDelegate) {
+  // $scope.showBackButton = function () {
+  //   console.log($ionicNavBarDelegate.showBackButton());
+  //   return $ionicNavBarDelegate.showBackButton();
+  // }
 });
 
-jumplink.invoice.controller('InvoiceTaskController', function($scope, $filter, moment) {
+jumplink.invoice.controller('InvoicePreviewController', function($scope, $ionicNavBarDelegate) {
+  // $scope.showBackButton = function () {
+  //   console.log($ionicNavBarDelegate.showBackButton());
+  //   return $ionicNavBarDelegate.showBackButton();
+  // }
 });
 
-jumplink.invoice.controller('InvoicePreviewController', function($scope, $filter, moment) {
+jumplink.invoice.controller('InvoiceTaskController', function($scope, $filter, moment, $ionicNavBarDelegate) {
 
-});
-
-jumplink.invoice.controller('InvoiceTaskController', function($scope, $filter, moment) {
-
-
+  // $scope.showBackButton = function () {
+  //   console.log($ionicNavBarDelegate.showBackButton());
+  //   return $ionicNavBarDelegate.showBackButton();
+  // }
 
   var bank = {
     owner: "Pascal Garber"
