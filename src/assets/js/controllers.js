@@ -2,7 +2,23 @@ jumplink.invoice.controller('IndexController', function($scope) {
 
 });
 
-jumplink.invoice.controller('InvoiceController', function($scope, $filter, moment) {
+jumplink.invoice.controller('InvoiceNavController', function($scope, $ionicNavBarDelegate) {
+});
+
+jumplink.invoice.controller('InvoiceCustomerController', function($scope, $filter, moment) {
+
+});
+
+jumplink.invoice.controller('InvoiceTaskController', function($scope, $filter, moment) {
+});
+
+jumplink.invoice.controller('InvoicePreviewController', function($scope, $filter, moment) {
+
+});
+
+jumplink.invoice.controller('InvoiceTaskController', function($scope, $filter, moment) {
+
+
 
   var bank = {
     owner: "Pascal Garber"

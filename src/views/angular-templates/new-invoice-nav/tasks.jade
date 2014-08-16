@@ -1,6 +1,6 @@
-ion-view(title='New Invoice')
-  ion-nav-buttons(side='left')
-    button.button.button-icon.icon.ion-navicon(menu-toggle='left')
+ion-view(title='Tasks', hide-nav-bar="false")
+  ion-nav-buttons(side="right")
+    a.button(href="/app/invoice/new/preview") Preview
   ion-content.has-header.has-footer
     .list
       .item.item-divider(ng-repeat-start="task in invoice.task") {{$index + 1}}. Task

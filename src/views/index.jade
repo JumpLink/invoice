@@ -11,15 +11,14 @@ html(lang="en", ng-app="jumplink.invoice")
 
     // Templates
     script(type="text/ng-template", id="/"): include angular-templates/index.jade
-    script(type="text/ng-template", id="/invoice/new"): include angular-templates/invoice/new.jade
     script(type="text/ng-template", id="menu"): include angular-templates/menu.jade
-
+    script(type="text/ng-template", id="new-invoice-nav"): include angular-templates/new-invoice-nav.jade
+    script(type="text/ng-template", id="new-invoice-nav/tasks"): include angular-templates/new-invoice-nav/tasks.jade
+    script(type="text/ng-template", id="new-invoice-nav/customer"): include angular-templates/new-invoice-nav/customer.jade
+    script(type="text/ng-template", id="new-invoice-nav/preview"): include angular-templates/new-invoice-nav/preview.jade
   body()
     span(ui-view)
     script(type="text/javascript", src="/third-party/angular/angular.js")
-    script(type="text/javascript", src="/third-party/angular-ui-router/release/angular-ui-router.js")
-    script(type="text/javascript", src="/third-party/angular-sanitize/angular-sanitize.js")
-    script(type="text/javascript", src="/third-party/angular-animate/angular-animate.js")
     script(type="text/javascript", src="/third-party/angular-dynamic-locale/src/tmhDynamicLocale.js")
     script(type="text/javascript", src="/third-party/moment/moment.js")
     script(type="text/javascript", src="/third-party/angular-moment/angular-moment.js")
@@ -27,8 +26,12 @@ html(lang="en", ng-app="jumplink.invoice")
     script(type="text/javascript", src="/third-party/angular-qrcode/qrcode.js")
     script(src='/third-party/webodf/webodf-debug.js', type='text/javascript', charset='utf-8')
 
-    script(src='/third-party/ionic/release/js/ionic.js', type='text/javascript')
-    script(src='/third-party/ionic/release/js/ionic-angular.js', type='text/javascript')
+    script(type="text/javascript", src="/third-party/collide/collide.js")
+    script(type='text/javascript', src='/third-party/ionic/release/js/ionic.js')
+    script(type='text/javascript', src='/third-party/ionic/release/js/ionic-angular.js',)
+    script(type="text/javascript", src="/third-party/angular-animate/angular-animate.js")
+    script(type="text/javascript", src="/third-party/angular-ui-router/release/angular-ui-router.js")
+    script(type="text/javascript", src="/third-party/angular-sanitize/angular-sanitize.js")
 
     //- Bring in the socket.io client
     script(type="text/javascript", src="/js/dependencies/socket.io.js")

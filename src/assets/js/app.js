@@ -17,30 +17,48 @@ jumplink.invoice = angular.module('jumplink.invoice', [
 
 jumplink.invoice.config( function($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider) {
 
-  $urlRouterProvider.otherwise('/app/invoice/new');
+  $urlRouterProvider.otherwise('/app/invoice/new/customer');
 
   $stateProvider
-  .state('app', {
+  .state('menu', {
     url: '/app'
     , abstract: true
     , templateUrl: "menu"
     , controller: 'IndexController'
   })
-  .state('app.new-invoice', {
-    url: '/invoice/new'
+  .state('menu.new-invoice-nav', {
+    abstract: true
     , views: {
       'menuContent' : {
-        templateUrl: '/invoice/new'
-        , controller: 'InvoiceController'
+        templateUrl: 'new-invoice-nav'
+        , controller: 'InvoiceNavController'
       }
     }
   })
-  .state('app.new-invoice.tasks', {
+  .state('menu.new-invoice-nav.customer', {
+    url: '/invoice/new/customer'
+    , views: {
+      'newInvoiceContent' : {
+        templateUrl: 'new-invoice-nav/customer'
+        , controller: 'InvoiceCustomerController'
+      }
+    }
+  })
+  .state('menu.new-invoice-nav.tasks', {
     url: '/invoice/new/tasks'
     , views: {
-      'menuContent' : {
-        templateUrl: '/invoice/new/tasks'
-        , controller: 'InvoiceController'
+      'newInvoiceContent' : {
+        templateUrl: 'new-invoice-nav/tasks'
+        , controller: 'InvoiceTaskController'
+      }
+    }
+  })
+  .state('menu.new-invoice-nav.preview', {
+    url: '/invoice/new/preview'
+    , views: {
+      'newInvoiceContent' : {
+        templateUrl: 'new-invoice-nav/preview'
+        , controller: 'InvoicePreviewController'
       }
     }
   })
