@@ -13,7 +13,8 @@ html(lang="en", ng-app="jumplink.invoice")
     script(type="text/ng-template", id="/"): include angular-templates/index.jade
     script(type="text/ng-template", id="menu"): include angular-templates/menu.jade
     script(type="text/ng-template", id="new-invoice-nav"): include angular-templates/new-invoice-nav.jade
-    script(type="text/ng-template", id="new-invoice-nav/tasks"): include angular-templates/new-invoice-nav/tasks.jade
+    script(type="text/ng-template", id="new-invoice-nav/services"): include angular-templates/new-invoice-nav/services.jade
+    script(type="text/ng-template", id="new-invoice-nav/products"): include angular-templates/new-invoice-nav/products.jade
     script(type="text/ng-template", id="new-invoice-nav/customer"): include angular-templates/new-invoice-nav/customer.jade
     script(type="text/ng-template", id="new-invoice-nav/preview"): include angular-templates/new-invoice-nav/preview.jade
   body()
@@ -46,5 +47,6 @@ html(lang="en", ng-app="jumplink.invoice")
     script(type="text/javascript", src="/third-party/moment/lang/de.js")
 
     script(type="text/javascript", src="/js/app.js")
+    script(type="text/javascript", src="/js/services.js")
     script(type="text/javascript", src="/js/controllers.js")
     script(type="text/javascript", src="/js/directives/webodf.js")

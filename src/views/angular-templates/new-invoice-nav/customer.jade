@@ -1,5 +1,6 @@
-ion-view(title='Customer')
-  ion-nav-buttons(side="right")
-    a.button.button-clear(href="/app/invoice/new/tasks") Tasks
+ion-view(title='{{"Customer" | translate}}')
   ion-content.has-header
     | customer
+    .button-bar
+      button.button.button-full.button-positive(ng-click="abort()") {{"Abort" | translate}}
+      a.button.button-full.button-positive(href="/app/invoice/new/services") {{"Next to Services" | translate}}

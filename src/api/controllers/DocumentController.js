@@ -6,6 +6,7 @@
  */
 
 var exec = require('child_process').exec;
+var path = require('path');
 var UPLOADFOLDER =  __dirname+'/../../.tmp/uploads';
 
 module.exports = {
@@ -18,6 +19,10 @@ module.exports = {
         sails.log.error(err);
         return res.serverError(err);
       }
+
+      for (var i = 0; i < files.length; i++) {
+        files[i].uploadedAs = path.basename(files[i].fd);
+      };
 
       return res.json({
         message: files.length + ' file(s) uploaded successfully!',
@@ -217,17 +222,29 @@ module.exports = {
   // impress_flash_Export
   // draw_pgm_Export
   convert: function (req, res) {
+    sails.log.info('convert');
     if(!req.param('filename')) res.badRequest('filename is required');
-    var inputFileName = UPLOADFOLDER +'/'+req.param('filename');
+    var inputDir = UPLOADFOLDER +'/'+req.param('filename');
     var outputFileExtension = req.param('extension') ? req.param('extension') : 'pdf'; // example 'pdf';
     var outputFilterName = req.param('filter') ? ':'+req.param('filter') : '';  //(optinal) example ':'+'MS Excel 95';
     var outputDir = UPLOADFOLDER;
     if(req.param('dir')) {
       outputDir += '/'+req.param('dir');
     }
-    var command = 'soffice --headless --invisible --convert-to '+outputFileExtension+outputFilterName+' --outdir '+outputDir+' '+inputFileName;
-    console.log(command);
+    outputDir = path.normalize(outputDir);
+    inputDir = path.normalize(inputDir);
+    var command = 'soffice --headless --invisible --convert-to '+outputFileExtension+outputFilterName+' --outdir '+outputDir+' '+inputDir;
+    sails.log.info(command);
     var child = exec(command, function (error, stdout, stderr) {
+      if(error) {
+        sails.log.error(error);
+      }
+      if(stderr) {
+        sails.log.error(stderr);
+      }
+      if(stdout) {
+        sails.log.info(stdout);
+      }
       res.json({error: error, stdout: stdout, stderr: stderr});
     });
   }

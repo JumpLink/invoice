@@ -1,0 +1,18 @@
+ion-view(title='Products', hide-nav-bar="false")
+  ion-nav-buttons(side="right")
+    button.button.button-icon.icon.ion-minus-round(title="Remove Service", ng-click="removeProduct()")
+    button.button.button-icon.icon.ion-plus-round(title="Add Service", ng-click="addProduct()")
+    //- button.button.button-icon.icon.ion-android-more(title="more", ng-click="")
+  ion-content.has-header.has-footer
+    .list
+      .item.item-divider(ng-repeat-start="product in invoice.products") {{$index + 1}}. Product
+      label.item.item-input
+        input(id="#invoice-product-{{$index + 1}}-title", type='text', ng-model="product.title", placeholder='Title')
+      label.item.item-input
+        textarea(id="#invoice-product-{{$index + 1}}-description", ng-model="product.description", placeholder='Description')
+      label.item.item-input(ng-repeat-end)
+        i.icon.ion-cash.placeholder-icon
+        input(id="#invoice-product-{{$index + 1}}-cost", type='number', ng-model="product.cost", placeholder='0')
+    .button-bar
+      button.button.button-full.button-positive(ng-click="abort()") {{"Abort" | translate}}
+      a.button.button-full.button-positive(href="/app/invoice/new/preview") {{"Next to Preview" | translate}}

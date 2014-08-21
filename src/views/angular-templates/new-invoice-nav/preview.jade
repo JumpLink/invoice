@@ -1,5 +1,7 @@
-ion-view(title='Finish')
+ion-view(title='Preview')
   ion-nav-buttons(side="right")
-    a.button.button-clear(href="/app/invoice/new/finish") Finish
+    button.button.button-icon.icon.ion-android-download(ng-click="download()")
+    button.button.button-icon.icon.ion-upload(ng-click="upload()")
   ion-content.has-header
-    | Finish
+    webodfview(data-file="/invoice.odt", data-invoice="invoice", data-upload="webodf.upload", data-refresh="webodf.refresh", data-ready="webodf.ready", data-download="webodf.download")
+    a.button.button-full.button-positive(href="/app/invoice/new/finish") Finish

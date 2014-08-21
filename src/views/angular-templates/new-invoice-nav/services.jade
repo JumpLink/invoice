@@ -1,0 +1,18 @@
+ion-view(title='Services', hide-nav-bar="false")
+  ion-nav-buttons(side="right")
+    button.button.button-icon.icon.ion-minus-round(title="Remove Service", ng-click="removeService()")
+    button.button.button-icon.icon.ion-plus-round(title="Add Service", ng-click="addService()")
+    //- button.button.button-icon.icon.ion-android-more(title="more", ng-click="")
+  ion-content.has-header.has-footer
+    .list
+      .item.item-divider(ng-repeat-start="service in invoice.services") {{$index + 1}}. Service
+      label.item.item-input
+        input(id="#invoice-service-{{$index + 1}}-title", type='text', ng-model="service.title", placeholder='Title')
+      label.item.item-input
+        textarea(id="#invoice-service-{{$index + 1}}-description", ng-model="service.description", placeholder='Description')
+      label.item.item-input(ng-repeat-end)
+        i.icon.ion-cash.placeholder-icon
+        input(id="#invoice-service-{{$index + 1}}-cost", type='number', ng-model="service.cost", placeholder='0')
+    .button-bar
+      button.button.button-full.button-positive(ng-click="abort()") {{"Abort" | translate}}
+      a.button.button-full.button-positive(href="/app/invoice/new/products") {{"Next to Products" | translate}}

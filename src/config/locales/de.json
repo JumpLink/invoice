@@ -1,5 +1,12 @@
 {
   "You are not permitted to perform this action.": "Es ist dir nicht erlaubt diese Aktion auszuführen.",
   "Sign in": "Anmelden",
-  "Sign in to continue": "Melde dich an um fortzufahren"
+  "Sign in to continue": "Melde dich an um fortzufahren",
+  "Task": "Aufgabe",
+  "Next to Tasks": "Weiter zu Aufgaben",
+  "Next to Customer": "Weiter zu Aufgaben",
+  "Next to Preview": "Weiter zu Vorschau",
+  "Preview": "Vorschau",
+  "Customer": "Kunden",
+  "Abort": "Abbrechen"
 }
