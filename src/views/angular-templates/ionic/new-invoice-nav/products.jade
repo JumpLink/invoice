@@ -15,4 +15,4 @@ ion-view(title='Products', hide-nav-bar="false")
         input(id="#invoice-product-{{$index + 1}}-cost", type='number', ng-model="product.cost", placeholder='0')
     .button-bar
       button.button.button-full.button-positive(ng-click="abort()") {{"Abort" | translate}}
-      a.button.button-full.button-positive(href="/app/invoice/new/preview") {{"Next to Preview" | translate}}
+      a.button.button-full.button-positive(href="/ionic/invoice/new/preview") {{"Next to Preview" | translate}}

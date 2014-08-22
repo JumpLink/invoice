@@ -7,16 +7,16 @@ html(lang="en", ng-app="jumplink.invoice")
     meta(name="viewport",content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no")
 
     // Stylesheets
-    link(href='/styles/importer.css', rel='stylesheet')
+    link(href='/styles/ionic.css', rel='stylesheet')
 
     // Templates
-    script(type="text/ng-template", id="/"): include angular-templates/index.jade
-    script(type="text/ng-template", id="menu"): include angular-templates/menu.jade
-    script(type="text/ng-template", id="new-invoice-nav"): include angular-templates/new-invoice-nav.jade
-    script(type="text/ng-template", id="new-invoice-nav/services"): include angular-templates/new-invoice-nav/services.jade
-    script(type="text/ng-template", id="new-invoice-nav/products"): include angular-templates/new-invoice-nav/products.jade
-    script(type="text/ng-template", id="new-invoice-nav/customer"): include angular-templates/new-invoice-nav/customer.jade
-    script(type="text/ng-template", id="new-invoice-nav/preview"): include angular-templates/new-invoice-nav/preview.jade
+    script(type="text/ng-template", id="/"): include angular-templates/ionic/index.jade
+    script(type="text/ng-template", id="menu"): include angular-templates/ionic/menu.jade
+    script(type="text/ng-template", id="new-invoice-nav"): include angular-templates/ionic/new-invoice-nav.jade
+    script(type="text/ng-template", id="new-invoice-nav/services"): include angular-templates/ionic/new-invoice-nav/services.jade
+    script(type="text/ng-template", id="new-invoice-nav/products"): include angular-templates/ionic/new-invoice-nav/products.jade
+    script(type="text/ng-template", id="new-invoice-nav/customer"): include angular-templates/ionic/new-invoice-nav/customer.jade
+    script(type="text/ng-template", id="new-invoice-nav/preview"): include angular-templates/ionic/new-invoice-nav/preview.jade
   body()
     span(ui-view)
     script(type="text/javascript", src="/third-party/angular/angular.js")

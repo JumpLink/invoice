@@ -58,13 +58,13 @@ jumplink.invoice.config( function($stateProvider, $urlRouterProvider, $locationP
   $urlRouterProvider.otherwise('/signin');
 
   $stateProvider
-  .state('menu', {
-    url: '/app'
+  .state('ionic', {
+    url: '/ionic'
     , abstract: true
     , templateUrl: "menu"
     , controller: 'IndexController'
   })
-  .state('menu.new-invoice-nav', {
+  .state('ionic.new-invoice-nav', {
     abstract: true
     , views: {
       'menuContent' : {
@@ -73,7 +73,7 @@ jumplink.invoice.config( function($stateProvider, $urlRouterProvider, $locationP
       }
     }
   })
-  .state('menu.new-invoice-nav.customer', {
+  .state('ionic.new-invoice-nav.customer', {
     url: '/invoice/new/customer'
     , views: {
       'newInvoiceContent' : {
@@ -82,7 +82,7 @@ jumplink.invoice.config( function($stateProvider, $urlRouterProvider, $locationP
       }
     }
   })
-  .state('menu.new-invoice-nav.services', {
+  .state('ionic.new-invoice-nav.services', {
     url: '/invoice/new/services'
     , views: {
       'newInvoiceContent' : {
@@ -91,7 +91,7 @@ jumplink.invoice.config( function($stateProvider, $urlRouterProvider, $locationP
       }
     }
   })
-  .state('menu.new-invoice-nav.products', {
+  .state('ionic.new-invoice-nav.products', {
     url: '/invoice/new/products'
     , views: {
       'newInvoiceContent' : {
@@ -100,7 +100,7 @@ jumplink.invoice.config( function($stateProvider, $urlRouterProvider, $locationP
       }
     }
   })
-  .state('menu.new-invoice-nav.preview', {
+  .state('ionic.new-invoice-nav.preview', {
     url: '/invoice/new/preview'
     , views: {
       'newInvoiceContent' : {

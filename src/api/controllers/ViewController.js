@@ -9,8 +9,8 @@ module.exports = {
   /*
    * single-page application https://en.wikipedia.org/wiki/Single-page_application
    */
-	singlePage: function(req, res, next) {
-    res.view('index');
+	singlePageIonic: function(req, res, next) {
+    res.view('ionic');
   },
 
   /*

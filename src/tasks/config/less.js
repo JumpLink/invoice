@@ -18,7 +18,7 @@ module.exports = function(grunt) {
         {
           expand: true,
           cwd: 'assets/styles/',
-          src: ['importer.less'],
+          src: ['ionic.less'],
           dest: '.tmp/public/styles/',
           ext: '.css'
         },

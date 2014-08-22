@@ -1,0 +1,86 @@
+/**
+ * importer.less
+ *
+ * By default, new Sails projects are configured to compile this file
+ * from LESS to CSS.  Unlike CSS files, LESS files are not compiled and
+ * included automatically unless they are imported below.
+ *
+ * The LESS files imported below are compiled and included in the order
+ * they are listed.  Mixins, variables, etc. should be imported first
+ * so that they can be accessed by subsequent LESS stylesheets.
+ *
+ * (Just like the rest of the asset pipeline bundled in Sails, you can
+ * always omit, customize, or replace this behavior with SASS, SCSS,
+ * or any other Grunt tasks you like.)
+ */
+
+// Fonts
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic&subset=latin,cyrillic-ext,cyrillic,greek-ext,greek,latin-ext);
+
+// Core variables and mixins
+@import "./../third-party/bootstrap/less/variables.less";
+@import "./../third-party/bootstrap/less/mixins.less";
+
+// Reset and dependencies
+@import "./../third-party/bootstrap/less/normalize.less";
+@import "./../third-party/bootstrap/less/print.less";
+@import "./../third-party/bootstrap/less/glyphicons.less";
+
+// Core CSS
+@import "./../third-party/bootstrap/less/scaffolding.less";
+@import "./../third-party/bootstrap/less/type.less";
+@import "./../third-party/bootstrap/less/code.less";
+@import "./../third-party/bootstrap/less/grid.less";
+@import "./../third-party/bootstrap/less/tables.less";
+@import "./../third-party/bootstrap/less/forms.less";
+@import "./../third-party/bootstrap/less/buttons.less";
+
+// Components
+@import "./../third-party/bootstrap/less/component-animations.less";
+@import "./../third-party/bootstrap/less/dropdowns.less";
+@import "./../third-party/bootstrap/less/button-groups.less";
+@import "./../third-party/bootstrap/less/input-groups.less";
+@import "./../third-party/bootstrap/less/navs.less";
+@import "./../third-party/bootstrap/less/navbar.less";
+@import "./../third-party/bootstrap/less/breadcrumbs.less";
+@import "./../third-party/bootstrap/less/pagination.less";
+@import "./../third-party/bootstrap/less/pager.less";
+@import "./../third-party/bootstrap/less/labels.less";
+@import "./../third-party/bootstrap/less/badges.less";
+@import "./../third-party/bootstrap/less/jumbotron.less";
+@import "./../third-party/bootstrap/less/thumbnails.less";
+@import "./../third-party/bootstrap/less/alerts.less";
+@import "./../third-party/bootstrap/less/progress-bars.less";
+@import "./../third-party/bootstrap/less/media.less";
+@import "./../third-party/bootstrap/less/list-group.less";
+@import "./../third-party/bootstrap/less/panels.less";
+@import "./../third-party/bootstrap/less/responsive-embed.less";
+@import "./../third-party/bootstrap/less/wells.less";
+@import "./../third-party/bootstrap/less/close.less";
+
+// Components w/ JavaScript
+@import "./../third-party/bootstrap/less/modals.less";
+@import "./../third-party/bootstrap/less/tooltip.less";
+@import "./../third-party/bootstrap/less/popovers.less";
+@import "./../third-party/bootstrap/less/carousel.less";
+
+// Utility classes
+@import "./../third-party/bootstrap/less/utilities.less";
+@import "./../third-party/bootstrap/less/responsive-utilities.less";
+
+// angular motion
+@import "./../third-party/angular-motion/src/fade/fade.less";
+@import "./../third-party/angular-motion/src/flip/flip.less";
+@import "./../third-party/angular-motion/src/slide/slide.less";
+@import "./../third-party/angular-motion/src/fade-and-slide/fade-and-slide.less";
+@import "./../third-party/angular-motion/src/fade-and-scale/fade-and-scale.less";
+
+#odf {
+  transform-origin: top center;
+  -webkit-transform-origin: top center;
+  -moz-transform-origin: top center;
+  -o-transform-origin: top center;
+  box-shadow: 0px 0px 20px #aaa;
+  border: 1px solid #ccc;
+  overflow: hidden;
+}
