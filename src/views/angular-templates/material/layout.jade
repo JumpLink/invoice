@@ -1,0 +1,7 @@
+section(layout='horizontal', layout-fill='layout-fill')
+  material-sidenav.material-sidenav-left.material-whiteframe-z2(component-id='left')
+    div(ui-view="leftSideNav")
+  div(flex="flex")
+    div(ui-view="toolbar")
+    div(ui-view="content")
+    div(ui-view="actionButtons", layout='vertical', layout-fill='layout-fill', layout-align="end end", style="position: absolute; top: 0; left: 0;")

@@ -10,7 +10,11 @@ module.exports = {
    * single-page application https://en.wikipedia.org/wiki/Single-page_application
    */
 	singlePageIonic: function(req, res, next) {
-    res.view('ionic');
+    res.view('init-ionic');
+  },
+
+  singlePageMaterial: function(req, res, next) {
+    res.view('init-material');
   },
 
   /*

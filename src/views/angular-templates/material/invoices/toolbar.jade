@@ -1,0 +1,14 @@
+material-toolbar.material-theme-green
+  .material-toolbar-tools(layout="horizontal")
+    // TODO https://material.angularjs.org/#/material.components.button/directive/materialButton
+    .material-button(style="width: 24px; height: 24px;", ng-click="toggleLeft()")
+      material-icon(icon="/images/material-icons/ic_menu_24px_white.svg")
+    h1(flex='flex')
+      span Invoices
+    .material-button(ng-click="toggleFullscreen()", style="width: 24px; height: 24px;")
+      span(ng-if="!isFullscreen")
+        material-icon(icon="/images/material-icons/ic_fullscreen_24px_white.svg")
+      span(ng-if="isFullscreen")
+        material-icon(icon="/images/material-icons/ic_fullscreen_exit_24px_white.svg")
+    .material-button(style="width: 24px; height: 24px;")
+      material-icon(icon="/images/material-icons/ic_drawer_24px_white.svg")

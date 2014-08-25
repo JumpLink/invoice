@@ -14,14 +14,18 @@
     "tests"
   ],
   "dependencies": {
+    "angular": "^1.3.x",
+    "angular-animate": "^1.3.x",
+    "angular-sanitize": "^1.3.x",
     "angular-qrcode": "~3.1.0",
     "angular-moment": "~0.8.0",
-    "angular-sanitize": "~1.2.22",
     "angularSails": "*",
     "angular-translate": "~2.2.0",
     "angular-translate-loader-url": "~2.2.0",
     "angular-i18n": "~1.2.22",
     "angular-dynamic-locale": "~0.1.17",
-    "ionic": "1.0.0-beta.11"
+    "ionic": "1.0.0-beta.11",
+    "angular-material": "master",
+    "material-icons": "git@github.com:angular/material-icons.git"
   }
 }

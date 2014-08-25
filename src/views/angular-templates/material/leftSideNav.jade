@@ -1,0 +1,20 @@
+material-toolbar.material-theme-indigo
+  h1.material-toolbar-tools Sidenav Left
+material-content.material-content-padding
+  material-list
+    material-item
+      .material-tile-left
+        material-icon(icon="/images/material-icons/ic_close_24px.svg")
+      .material-tile-content(ng-click='close()') Close
+    material-item(ui-sref='material-layout.home')
+      .material-tile-left
+        material-icon(icon="/images/material-icons/ic_home_24px.svg")
+      .material-tile-content Home
+    material-item(ui-sref='material-layout.invoices')
+      .material-tile-left
+        material-icon(icon="/images/material-icons/invoice_24px.svg")
+      .material-tile-content Invoices
+    material-item(ui-sref='material-layout.customers')
+      .material-tile-left
+        material-icon(icon="/images/material-icons/ic_people_24px.svg")
+      .material-tile-content Customers
