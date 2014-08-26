@@ -14,10 +14,10 @@ html(lang="en", ng-app="jumplink.invoice")
     script(type="text/ng-template", id="material/leftSideNav"): include angular-templates/material/leftSideNav.jade
     script(type="text/ng-template", id="material/home/content"): include angular-templates/material/home/content.jade
     script(type="text/ng-template", id="material/home/toolbar"): include angular-templates/material/home/toolbar.jade
-    script(type="text/ng-template", id="material/home/actionButtons"): include angular-templates/material/home/actionButtons.jade
     script(type="text/ng-template", id="material/invoices/content"): include angular-templates/material/invoices/content.jade
     script(type="text/ng-template", id="material/invoices/toolbar"): include angular-templates/material/invoices/toolbar.jade
-    script(type="text/ng-template", id="material/invoices/actionButtons"): include angular-templates/material/invoices/actionButtons.jade
+    script(type="text/ng-template", id="material/invoices/new/content"): include angular-templates/material/invoices/new/content.jade
+    script(type="text/ng-template", id="material/invoices/new/toolbar"): include angular-templates/material/invoices/new/toolbar.jade
   body()
     span(ui-view)
     script(type="text/javascript", src="/third-party/angular/angular.js")
@@ -53,4 +53,5 @@ html(lang="en", ng-app="jumplink.invoice")
     script(type="text/javascript", src="/js/services.js")
     script(type="text/javascript", src="/js/controllers.js")
     script(type="text/javascript", src="/js/material/controllers.js")
+    script(type="text/javascript", src="/js/material/directives.js")
     script(type="text/javascript", src="/js/directives/webodf.js")

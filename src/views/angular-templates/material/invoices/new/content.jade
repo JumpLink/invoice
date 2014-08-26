@@ -1,0 +1,18 @@
+material-content.material-content-padding
+  material-list
+    material-item
+      .material-tile-content
+        h2 Invoices
+        h3 test
+        p
+          | test3
+//- Promoted Action: http://www.google.com/design/spec/patterns/promoted-actions.html
+material-button.material-button-fab.material-theme-purple.bottom-right(square-and-expand-me="promotedAction.expand", click-anywhere-but-here="unexpand()", ng-click="expand()")
+  material-icon.fade(ng-hide="!originalStyle || expandedStyle", icon="/images/material-icons/ic_add_24px_white.svg")
+  .expanded-icons.fade(ng-show="!originalStyle && expandedStyle", layout="horizontal", layout-align="space-around")
+    material-button.material-button-fab.material-theme-purple(style="box-shadow: none; margin-top: -16px;")
+      material-icon(icon="/images/material-icons/ic_person_add_24px_white.svg")
+    material-button.material-button-fab.material-theme-purple(style="box-shadow: none; margin-top: -16px;")
+      material-icon(icon="/images/material-icons/ic_add_shopping_cart_24px_white.svg")
+    material-button.material-button-fab.material-theme-purple(style="box-shadow: none; margin-top: -16px;")
+      material-icon(icon="/images/material-icons/add_service_24px_white.svg")

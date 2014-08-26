@@ -39,10 +39,6 @@ jumplink.invoice.config( function($stateProvider, $urlRouterProvider) {
         templateUrl: 'material/home/toolbar'
         , controller: 'HomeToolbarController'
       }
-      , 'actionButtons' : {
-        templateUrl: 'material/home/actionButtons'
-        , controller: 'HomeToolbarController'
-      }
     }
   })
   // INVOICES
@@ -55,15 +51,28 @@ jumplink.invoice.config( function($stateProvider, $urlRouterProvider) {
       }
       , 'content' : {
         templateUrl: 'material/invoices/content'
-        , controller: 'HomeContentController'
+        , controller: 'InvoicesContentController'
       }
       , 'toolbar' : {
         templateUrl: 'material/invoices/toolbar'
         , controller: 'HomeToolbarController'
       }
-      , 'actionButtons' : {
-        templateUrl: 'material/invoices/actionButtons'
-        , controller: 'HomeToolbarController'
+    }
+  })
+  .state('material-layout.invoices-new', {
+    url: '/invoices/new'
+    , views: {
+      'leftSideNav': {
+        templateUrl: 'material/leftSideNav'
+        , controller: 'LeftSideNavController'
+      }
+      , 'content' : {
+        templateUrl: 'material/invoices/new/content'
+        , controller: 'InvoiceNewContentController'
+      }
+      , 'toolbar' : {
+        templateUrl: 'material/invoices/new/toolbar'
+        , controller: 'InvoiceNewToolbarController'
       }
     }
   })

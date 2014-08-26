@@ -1,3 +1,13 @@
+jumplink.invoice.service('historyService', function ($window) {
+  var back = function () {
+    $window.history.back();
+  }
+
+  return {
+    back: back
+  };
+});
+
 jumplink.invoice.factory('invoiceCreaterService', function ($filter, moment) {
   var currentInvoice;
 
@@ -57,7 +67,7 @@ jumplink.invoice.factory('invoiceCreaterService', function ($filter, moment) {
     }
 
     var now = moment();
-    var deadline = moment().add('weeks', 2);
+    var deadline = moment().add('month', 1);
 
     var invoice = {
       approver: approver
