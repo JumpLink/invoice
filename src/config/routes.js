@@ -35,6 +35,7 @@ module.exports.routes = {
   // '/': 'ViewController.singlePageIonic',
   '/ionic*': 'ViewController.singlePageIonic',
   '/material*': 'ViewController.singlePageMaterial',
+  '/': 'ViewController.singlePageMaterial',
 
   // '/invoice/new': 'ViewController.singlePage',
 

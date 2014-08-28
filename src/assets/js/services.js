@@ -8,7 +8,7 @@ jumplink.invoice.service('historyService', function ($window) {
   };
 });
 
-jumplink.invoice.factory('invoiceCreaterService', function ($filter, moment) {
+jumplink.invoice.factory('invoiceCreaterService', function (moment) {
   var currentInvoice;
 
   var fetchData = function (callback) {
@@ -66,20 +66,17 @@ jumplink.invoice.factory('invoiceCreaterService', function ($filter, moment) {
       , price: "Preis"
     }
 
-    var now = moment();
-    var deadline = moment().add('month', 1);
-
     var invoice = {
       approver: approver
       , recipient: recipient
       , currency: "Euro"
-      , date: $filter('amDateFormat')(now, 'dddd, Do MMMM YYYY')
-      , deadline: $filter('amDateFormat')(deadline, 'dddd, Do MMMM YYYY')
+      , date: moment() // now; example filter: $filter('amDateFormat')(now, 'dddd, Do MMMM YYYY')
+      , deadline: moment().add('month', 1) // in one month; example filter: $filter('amDateFormat')(deadline, 'dddd, Do MMMM YYYY')
       , services: services
       , products: products
       , number: 1
-      , tax: 0
       , taxrate: 0
+      , tax: 0
       , amount: 100
       , totalamount: 100
       , translate: translate

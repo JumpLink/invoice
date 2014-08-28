@@ -1,6 +1,7 @@
 doctype html
-html(lang="en", ng-app="jumplink.invoice")
+html(lang="en", ng-app="jumplink.invoice", ng-controller="AppController")
   head
+    base(href="/material")
     title Invoice
 
     // Viewport mobile tag for sensible mobile support
@@ -18,7 +19,7 @@ html(lang="en", ng-app="jumplink.invoice")
     script(type="text/ng-template", id="material/invoices/toolbar"): include angular-templates/material/invoices/toolbar.jade
     script(type="text/ng-template", id="material/invoices/new/content"): include angular-templates/material/invoices/new/content.jade
     script(type="text/ng-template", id="material/invoices/new/toolbar"): include angular-templates/material/invoices/new/toolbar.jade
-  body()
+  body
     span(ui-view)
     script(type="text/javascript", src="/third-party/angular/angular.js")
     script(type="text/javascript", src="/third-party/angular-dynamic-locale/src/tmhDynamicLocale.js")

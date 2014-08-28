@@ -1,21 +1,4 @@
-jumplink.invoice.controller('LayoutController', function($scope) {
-
-
-});
-
-jumplink.invoice.controller('LeftSideNavController', function($scope, $materialSidenav) {
-  $scope.close = function() {
-    console.log("close");
-    $materialSidenav('left').close();
-  };
-});
-
-// HOME
-jumplink.invoice.controller('HomeContentController', function($scope) {
-
-});
-
-jumplink.invoice.controller('HomeToolbarController', function($scope, $materialSidenav, Fullscreen) {
+jumplink.invoice.controller('AppController', function($scope, $materialSidenav, Fullscreen) {
   $scope.toggleLeft = function() {
     console.log("toggleLeft");
     $materialSidenav('left').toggle();
@@ -34,6 +17,28 @@ jumplink.invoice.controller('HomeToolbarController', function($scope, $materialS
       Fullscreen.all();
     }
   };
+
+});
+
+jumplink.invoice.controller('LayoutController', function($scope, $materialSidenav, Fullscreen) {
+
+
+});
+
+jumplink.invoice.controller('LeftSideNavController', function($scope, $materialSidenav) {
+  $scope.close = function() {
+    console.log("close");
+    $materialSidenav('left').close();
+  };
+});
+
+// HOME
+jumplink.invoice.controller('HomeContentController', function($scope) {
+
+});
+
+jumplink.invoice.controller('HomeToolbarController', function($scope) {
+
 });
 
 // INVOICES LIST

@@ -1,7 +1,4 @@
-jumplink.invoice.config( function($locationProvider, $translateProvider, tmhDynamicLocaleProvider) {
-
-  // use the HTML5 History API
-  $locationProvider.html5Mode(true);
+jumplink.invoice.config( function($translateProvider, tmhDynamicLocaleProvider) {
 
   // localization
   $translateProvider.useUrlLoader('/locale/catalog');

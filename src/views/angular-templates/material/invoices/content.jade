@@ -1,14 +1,70 @@
-material-content.material-content-padding
-  material-list
-    material-item
-      .material-tile-left
-        material-icon(icon="/images/material-icons/invoice_48px.svg")
-      .material-tile-content
-        h2 Invoices
-        h3 test
-        p
-          | test3
+material-content.material-content-gray
+  .card-title new
+  material-card
+    material-list
+      material-item
+        .material-tile-left
+          material-icon(icon="/images/material-icons/invoice_48px.svg")
+        .material-tile-content
+          h2 Invoices
+          h3 test
+          p
+            | test3
+        .material-tile-right
+          material-icon(icon="/images/material-icons/ic_drawer_24px.svg")
+      material-item
+        .material-tile-left
+          material-icon(icon="/images/material-icons/invoice_48px.svg")
+        .material-tile-content
+          h2 Invoices
+          h3 test
+          p
+            | test3
+        .material-tile-right
+          material-icon(icon="/images/material-icons/ic_drawer_24px.svg")
+      material-item
+        .material-tile-left
+          material-icon(icon="/images/material-icons/invoice_48px.svg")
+        .material-tile-content
+          h2 Invoices
+          h3 test
+          p
+            | test3
+        .material-tile-right
+          material-icon(icon="/images/material-icons/ic_drawer_24px.svg")
+  | old
+  material-card
+    material-list
+      material-item
+        .material-tile-left
+          material-icon(icon="/images/material-icons/invoice_48px.svg")
+        .material-tile-content
+          h2 Invoices
+          h3 test
+          p
+            | test3
+        .material-tile-right
+          material-icon(icon="/images/material-icons/ic_drawer_24px.svg")
+      material-item
+        .material-tile-left
+          material-icon(icon="/images/material-icons/invoice_48px.svg")
+        .material-tile-content
+          h2 Invoices
+          h3 test
+          p
+            | test3
+        .material-tile-right
+          material-icon(icon="/images/material-icons/ic_drawer_24px.svg")
+      material-item
+        .material-tile-left
+          material-icon(icon="/images/material-icons/invoice_48px.svg")
+        .material-tile-content
+          h2 Invoices
+          h3 test
+          p
+            | test3
+        .material-tile-right
+          material-icon(icon="/images/material-icons/ic_drawer_24px.svg")
 //- Promoted Action: http://www.google.com/design/spec/patterns/promoted-actions.html
-div(style="position: absolute; bottom: 0; right: 0; padding:10px 20px;")
-  material-button.material-button-fab.material-theme-orange(ng-click="addInvoice()")
-    material-icon(icon="/images/material-icons/ic_add_24px_white.svg", style="width: 24px; height: 24px;")
+material-button.material-button-fab.material-theme-orange.fixed-bottom-right(ng-click="addInvoice()")
+  material-icon(icon="/images/material-icons/ic_add_24px_white.svg", style="width: 24px; height: 24px;")

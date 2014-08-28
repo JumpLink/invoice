@@ -11,7 +11,10 @@ jumplink.invoice = angular.module('jumplink.invoice', [
   , 'tmh.dynamicLocale'       // localization angular-dynamic-locale: https://github.com/lgalfaso/angular-dynamic-locale
 ]);
 
-jumplink.invoice.config( function($stateProvider, $urlRouterProvider) {
+jumplink.invoice.config( function($stateProvider, $urlRouterProvider, $locationProvider) {
+
+  // use the HTML5 History API
+  $locationProvider.html5Mode(true);
 
   $urlRouterProvider.otherwise('/material/home');
 

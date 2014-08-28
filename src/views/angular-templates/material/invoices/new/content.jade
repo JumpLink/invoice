@@ -1,18 +1,39 @@
-material-content.material-content-padding
-  material-list
-    material-item
-      .material-tile-content
-        h2 Invoices
-        h3 test
-        p
-          | test3
+material-content.new-invoice-content(layout="vertical")
+  .info(layout="horizontal", layout-align="space-between")
+    .left
+      h2 Invoice
+      p # {{invoice.number}}
+    .right
+      p {{invoice.date | amDateFormat:'D.MM.YYYY'}}
+      //- p Due date {{invoice.deadline | amCalendar}}
+      small {{'Due date' | translate}}&nbsp;
+        span(am-time-ago="invoice.deadline")
+  .card-title Recipient
+  material-card(style="background-color: white;")
+    material-list
+      material-item
+        .material-tile-left
+          material-icon(icon="/images/material-icons/ic_person_48px.svg")
+        .material-tile-content
+          h2 {{invoice.recipient.name}}
+          p(ng-if="invoice.recipient.address1") {{invoice.recipient.address1}}
+          p(ng-if="invoice.recipient.address2") {{invoice.recipient.address2}}
+          p(ng-if="invoice.recipient.address3") {{invoice.recipient.address3}}
+        .material-tile-right
+          material-icon(icon="/images/material-icons/ic_drawer_24px.svg")
 //- Promoted Action: http://www.google.com/design/spec/patterns/promoted-actions.html
-material-button.material-button-fab.material-theme-purple.bottom-right(square-and-expand-me="promotedAction.expand", click-anywhere-but-here="unexpand()", ng-click="expand()")
+material-button.material-button-fab.material-theme-purple.fixed-bottom-right(square-and-expand-me="promotedAction.expand", click-anywhere-but-here="unexpand()", ng-click="expand()")
   material-icon.fade(ng-hide="!originalStyle || expandedStyle", icon="/images/material-icons/ic_add_24px_white.svg")
   .expanded-icons.fade(ng-show="!originalStyle && expandedStyle", layout="horizontal", layout-align="space-around")
+    //- Add Customer
     material-button.material-button-fab.material-theme-purple(style="box-shadow: none; margin-top: -16px;")
-      material-icon(icon="/images/material-icons/ic_person_add_24px_white.svg")
+      material-icon(icon="/images/material-icons/ic_person_24px_white.svg")
+    //- Add attach file
     material-button.material-button-fab.material-theme-purple(style="box-shadow: none; margin-top: -16px;")
-      material-icon(icon="/images/material-icons/ic_add_shopping_cart_24px_white.svg")
+      material-icon(icon="/images/material-icons/add_attach_file_24px_white.svg")
+    //- Add Expenditure (Ausgaben)
     material-button.material-button-fab.material-theme-purple(style="box-shadow: none; margin-top: -16px;")
-      material-icon(icon="/images/material-icons/add_service_24px_white.svg")
+      material-icon(icon="/images/material-icons/ic_attach_money_24px_white.svg")
+    //- Add Service
+    material-button.material-button-fab.material-theme-purple(style="box-shadow: none; margin-top: -16px;")
+      material-icon(icon="/images/material-icons/ic_check_24px_white.svg")

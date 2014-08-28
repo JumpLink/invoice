@@ -11,7 +11,10 @@ jumplink.invoice = angular.module('jumplink.invoice', [
   , 'tmh.dynamicLocale'       // localization
 ]);
 
-jumplink.invoice.config( function($stateProvider, $urlRouterProvider) {
+jumplink.invoice.config( function($stateProvider, $urlRouterProvider, $locationProvider) {
+
+  // use the HTML5 History API
+  $locationProvider.html5Mode(true);
 
   $urlRouterProvider.otherwise('/ionic/invoice/new/customer');
 
