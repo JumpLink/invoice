@@ -1,0 +1,17 @@
+material-dialog
+  .dialog-content
+    .dialog-title {{'New Service' | translate}}
+    material-input-group.material-input-group-theme-light
+      label(for="title") {{'Title' | translate}}
+      material-input#title(type="text", ng-model="service.title")
+    material-input-group.material-input-group-theme-light
+      label(for="description") {{'Description' | translate}}
+      material-input#description(type="text", ng-model="service.description")
+    material-input-group.material-input-group-theme-light
+      label(for="cost") {{'Cost' | translate}}
+      material-input#cost(type="number", ng-model="service.cost")
+  .dialog-actions(layout='horizontal', layout-align='end')
+    material-button(ng-click='close()')
+      | {{'Cancel' | translate}}
+    material-button.material-button-colored(ng-click='add()')
+      | {{'Add' | translate}}

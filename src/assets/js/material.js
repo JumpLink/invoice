@@ -78,6 +78,19 @@ jumplink.invoice.config( function($stateProvider, $urlRouterProvider, $locationP
         , controller: 'InvoiceNewToolbarController'
       }
     }
+    ,resolve: {
+      invoice: function ($q, invoiceCreaterService) {
+        var deferred = $q.defer();
+        invoiceCreaterService.getData(function(error, invoice) {
+          if(error || !invoice) {
+            deferred.reject(error);
+          } else {
+            deferred.resolve(invoice);
+          }
+        });
+        return deferred.promise;
+      }
+    }
   })
   ;
 });

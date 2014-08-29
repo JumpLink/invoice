@@ -10,6 +10,16 @@ material-card {
   background-color: white;
 }
 
+.no-shadow {
+  box-shadow: none !important;
+}
+
+// scroll only up and down
+.scroll-y {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 // class for material promoted action button
 material-button.material-button-fab {
   // fixed promoted action button on buttom right
@@ -42,6 +52,12 @@ material-button.material-button-fab {
     border-radius: 0%;
     transform: translate3d(0,0,0);
     -webkit-transform: translate3d(0,0,0);
+  }
+  // custom color themes
+  &.material-theme-white {
+    &:hover, &:focus {
+      background-color: white;
+    }
   }
 }
 
@@ -79,6 +95,19 @@ material-content {
   }
 }
 
+// Material Button
+material-button {
+  &.small {
+    width: 32px;
+    height: 32px;
+    material-icon {
+      left: 4px;
+      top: 4px;
+      position: absolute;
+    }
+  }
+}
+
 // material list
 material-list {
   > material-button {
@@ -88,5 +117,12 @@ material-list {
     .material-button-inner {
       z-index: 1;
     }
+  }
+}
+
+
+material-dialog {
+  .dialog-title {
+    font-size: 1.17em;
   }
 }

@@ -1,39 +1,70 @@
 material-content.new-invoice-content(layout="vertical")
   .info(layout="horizontal", layout-align="space-between")
     .left
-      h2 Invoice
+      h2 {{'Invoice' | translate}}
       p # {{invoice.number}}
     .right
       p {{invoice.date | amDateFormat:'D.MM.YYYY'}}
       //- p Due date {{invoice.deadline | amCalendar}}
       small {{'Due date' | translate}}&nbsp;
         span(am-time-ago="invoice.deadline")
-  .card-title Recipient
-  material-card(style="background-color: white;")
-    material-list
-      material-item
-        .material-tile-left
-          material-icon(icon="/images/material-icons/ic_person_48px.svg")
-        .material-tile-content
-          h2 {{invoice.recipient.name}}
-          p(ng-if="invoice.recipient.address1") {{invoice.recipient.address1}}
-          p(ng-if="invoice.recipient.address2") {{invoice.recipient.address2}}
-          p(ng-if="invoice.recipient.address3") {{invoice.recipient.address3}}
-        .material-tile-right
-          material-icon(icon="/images/material-icons/ic_drawer_24px.svg")
+  .fade(ng-show="invoice.recipient")
+    .card-title {{'Recipient' | translate}}
+    material-card(style="background-color: white;")
+      material-list
+        material-item
+          .material-tile-left
+            material-icon(icon="/images/material-icons/ic_person_48px.svg")
+          .material-tile-content
+            h2 {{invoice.recipient.name}}
+            h3 {{invoice.recipient.email}}
+            p(ng-if="invoice.recipient.address1") {{invoice.recipient.address1}}
+            p(ng-if="invoice.recipient.address2") {{invoice.recipient.address2}}
+            p(ng-if="invoice.recipient.address3") {{invoice.recipient.address3}}
+          .material-tile-right
+            material-button.small.material-button-fab.material-theme-white.no-shadow(ng-click="openRecipientDialog($event, invoice.recipient)")
+              material-icon(icon="/images/material-icons/ic_mode_edit_24px.svg")
+  .fade(ng-show="invoice.services.length > 0")
+    .card-title {{'Services' | translate}}
+    material-card(style="background-color: white;")
+      material-list
+        material-item(ng-repeat="service in invoice.services")
+          .material-tile-left
+            material-icon(icon="/images/material-icons/ic_check_48px.svg")
+          .material-tile-content
+            h2 {{$index + 1}}. {{service.title}}
+            h3 {{service.description}}
+            p {{service.cost}}
+          .material-tile-right
+            material-button.small.material-button-fab.material-theme-white.no-shadow(ng-click="openServiceDialog($event, service)")
+              material-icon(icon="/images/material-icons/ic_mode_edit_24px.svg")
+  .fade(ng-show="invoice.products.length > 0")
+    .card-title {{'Expenditures' | translate}}
+    material-card(style="background-color: white;")
+      material-list
+        material-item(ng-repeat="expenditure in invoice.products")
+          .material-tile-left
+            material-icon(icon="/images/material-icons/ic_attach_money_48px.svg")
+          .material-tile-content
+            h2 {{$index + 1}}. {{expenditure.title}}
+            h3 {{expenditure.description}}
+            p {{expenditure.cost}}
+          .material-tile-right
+            material-button.small.material-button-fab.material-theme-white.no-shadow(ng-click="openExpenditureDialog($event, expenditure)")
+              material-icon(icon="/images/material-icons/ic_mode_edit_24px.svg")
 //- Promoted Action: http://www.google.com/design/spec/patterns/promoted-actions.html
 material-button.material-button-fab.material-theme-purple.fixed-bottom-right(square-and-expand-me="promotedAction.expand", click-anywhere-but-here="unexpand()", ng-click="expand()")
   material-icon.fade(ng-hide="!originalStyle || expandedStyle", icon="/images/material-icons/ic_add_24px_white.svg")
   .expanded-icons.fade(ng-show="!originalStyle && expandedStyle", layout="horizontal", layout-align="space-around")
     //- Add Customer
-    material-button.material-button-fab.material-theme-purple(style="box-shadow: none; margin-top: -16px;")
+    material-button.material-button-fab.material-theme-purple.no-shadow(style="margin-top: -16px;", ng-click="openRecipientDialog($event)")
       material-icon(icon="/images/material-icons/ic_person_24px_white.svg")
     //- Add attach file
-    material-button.material-button-fab.material-theme-purple(style="box-shadow: none; margin-top: -16px;")
+    material-button.material-button-fab.material-theme-purple.no-shadow(style="margin-top: -16px;", ng-click="openFileDialog($event)")
       material-icon(icon="/images/material-icons/add_attach_file_24px_white.svg")
     //- Add Expenditure (Ausgaben)
-    material-button.material-button-fab.material-theme-purple(style="box-shadow: none; margin-top: -16px;")
+    material-button.material-button-fab.material-theme-purple.no-shadow(style="margin-top: -16px;", ng-click="openExpenditureDialog($event)")
       material-icon(icon="/images/material-icons/ic_attach_money_24px_white.svg")
     //- Add Service
-    material-button.material-button-fab.material-theme-purple(style="box-shadow: none; margin-top: -16px;")
+    material-button.material-button-fab.material-theme-purple.no-shadow(style="margin-top: -16px;", ng-click="openServiceDialog($event)")
       material-icon(icon="/images/material-icons/ic_check_24px_white.svg")

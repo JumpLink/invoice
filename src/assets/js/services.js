@@ -8,7 +8,7 @@ jumplink.invoice.service('historyService', function ($window) {
   };
 });
 
-jumplink.invoice.factory('invoiceCreaterService', function (moment) {
+jumplink.invoice.factory('invoiceCreaterService', function (moment, $translate) {
   var currentInvoice;
 
   var fetchData = function (callback) {
@@ -31,44 +31,77 @@ jumplink.invoice.factory('invoiceCreaterService', function (moment) {
       , bank: bank
     }
 
-    var recipient = {
-      name: "customer"
-      , address1: "address1"
-      , address2: "address2"
-      , address3: "address3"
-    }
+    // var recipient = {
+    //   name: "customer"
+    //   , email: "test@test.eu"
+    //   , address1: "address1"
+    //   , address2: "address2"
+    //   , address3: "address3"
+    // }
 
     var services = []
-    services.push({
-      title: ""
-      , description: ""
-      , cost: 0
-    });
+    // services.push({
+    //   title: ""
+    //   , description: ""
+    //   , cost: 0
+    // });
 
+    // TODO rename to expenditures
     var products = []
-    products.push({
-      title: ""
-      , description: ""
-      , cost: 0
+    // products.push({
+    //   title: ""
+    //   , description: ""
+    //   , cost: 0
+    // });
+
+    var translate = {};
+
+    $translate("Invoice").then(function (translation) {
+      translate.invoice = translation;
     });
-
-
-    var translate = {
-      invoice: "Rechnung"
-      , amount: "Summe"
-      , totalamount: "Gesamtsumme"
-      , tax: "Umsatzsteuer"
-      , phone: "Telefon"
-      , fax: "Fax"
-      , hours: "Stunden"
-      , rate: "Tarif"
-      , total: "Gesamt"
-      , price: "Preis"
-    }
+    $translate("amount").then(function (translation) {
+      translate.amount = translation;
+    });
+    $translate("totalamount").then(function (translation) {
+      translate.totalamount = translation;
+    });
+    $translate("tax").then(function (translation) {
+      translate.tax = translation;
+    });
+    $translate("phone").then(function (translation) {
+      translate.phone = translation;
+    });
+    $translate("fax").then(function (translation) {
+      translate.fax = translation;
+    });
+    $translate("hours").then(function (translation) {
+      translate.hours = translation;
+    });
+    $translate("rate").then(function (translation) {
+      translate.rate = translation;
+    });
+    $translate("total").then(function (translation) {
+      translate.total = translation;
+    });
+    $translate("price").then(function (translation) {
+      translate.price = translation;
+    });
+    // var translate = {
+    //   invoice: "Rechnung"
+    //   , amount: "Summe"
+    //   , totalamount: "Gesamtsumme"
+    //   , tax: "Umsatzsteuer"
+    //   , phone: "Telefon"
+    //   , fax: "Fax"
+    //   , hours: "Stunden"
+    //   , rate: "Tarif"
+    //   , total: "Gesamt"
+    //   , price: "Preis"
+    // }
 
     var invoice = {
       approver: approver
-      , recipient: recipient
+      // , recipient: recipient
       , currency: "Euro"
       , date: moment() // now; example filter: $filter('amDateFormat')(now, 'dddd, Do MMMM YYYY')
       , deadline: moment().add('month', 1) // in one month; example filter: $filter('amDateFormat')(deadline, 'dddd, Do MMMM YYYY')
@@ -98,35 +131,64 @@ jumplink.invoice.factory('invoiceCreaterService', function (moment) {
     });
   }
 
-  var addService = function() {
-    currentInvoice.services.push({
+  var getEmptyServiceObject = function() {
+    return {
       title: ""
       , description: ""
       , cost: 0
-    });
+    };
+  }
+
+  var addService = function(service) {
+    if(!service) service = getEmptyServiceObject();
+    currentInvoice.services.push(service);
   }
 
   var removeService = function() {
     currentInvoice.services.pop();
   }
 
-  var addProduct = function() {
-    currentInvoice.products.push({
+  var getEmptyExpenditureObject = function() {
+    return {
       title: ""
       , description: ""
       , cost: 0
-    });
+    };
   }
 
-  var removeProduct = function() {
+  var addExpenditure = function(expenditure) {
+    if(!expenditure) expenditure = getEmptyExpenditureObject();
+    currentInvoice.products.push(expenditure);
+  }
+
+  var removeExpenditure = function() {
     currentInvoice.products.pop();
+  }
+
+  var getEmptyRecipientObject = function() {
+    return {
+      name: ""
+      , email: ""
+      , address1: ""
+      , address2: ""
+      , address3: ""
+    }
+  }
+
+  var setRecipient = function(recipient) {
+    if(!recipient) recipient = getEmptyRecipientObject();
+    currentInvoice.recipient = recipient;
   }
 
   return {
     addService: addService
+    , getEmptyServiceObject: getEmptyServiceObject
     , removeService: removeService
-    , addProduct: addProduct
-    , removeProduct: removeProduct
+    , getEmptyExpenditureObject: getEmptyExpenditureObject
+    , removeExpenditure: removeExpenditure
+    , getEmptyRecipientObject: getEmptyRecipientObject
+    , setRecipient: setRecipient
+    , addExpenditure: addExpenditure
     , fetchData: fetchData
     , newInvoice: newInvoice
     , getData: getData

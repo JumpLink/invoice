@@ -1,0 +1,23 @@
+material-dialog
+  .dialog-content
+    .dialog-title {{'New Recipient' | translate}}
+    material-input-group.material-input-group-theme-light
+      label(for="name") {{'Name' | translate}}
+      material-input#name(type="text", ng-model="recipient.name")
+    material-input-group.material-input-group-theme-light
+      label(for="email") {{'Email' | translate}}
+      material-input#email(type="email", ng-model="recipient.email")
+    material-input-group.material-input-group-theme-light
+      label(for="address1") {{'Address line 1' | translate}}
+      material-input#address1(type="text", ng-model="recipient.address1")
+    material-input-group.material-input-group-theme-light
+      label(for="address2") {{'Address line 2' | translate}}
+      material-input#address2(type="text", ng-model="recipient.address2")
+    material-input-group.material-input-group-theme-light
+      label(for="address3") {{'Address line 3' | translate}}
+      material-input#address3(type="text", ng-model="recipient.address3")
+  .dialog-actions(layout='horizontal', layout-align='end')
+    material-button(ng-click='close()')
+      | {{'Cancel' | translate}}
+    material-button.material-button-colored(ng-click='add()')
+      | {{'Add' | translate}}
