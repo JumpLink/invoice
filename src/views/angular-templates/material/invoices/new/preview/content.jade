@@ -1,0 +1,19 @@
+material-content.new-invoice-content(layout="vertical")
+  material-card.odf-card
+    webodfview(data-file="/invoice.odt", data-invoice="invoice", data-upload="webodf.upload", data-refresh="webodf.refresh", data-ready="webodf.ready", data-download="webodf.download")
+//- Promoted Action: http://www.google.com/design/spec/patterns/promoted-actions.html
+//- material-button.material-button-fab.material-theme-purple.fixed-bottom-right(square-and-expand-me="promotedAction.expand", click-anywhere-but-here="unexpand()", ng-click="expand()")
+//-   material-icon.fade(ng-hide="!originalStyle || expandedStyle", icon="/images/material-icons/ic_add_24px_white.svg")
+//-   .expanded-icons.fade(ng-show="!originalStyle && expandedStyle", layout="horizontal", layout-align="space-around")
+//-     //- Add Customer
+//-     material-button.material-button-fab.material-theme-purple.no-shadow(style="margin-top: -16px;", ng-click="openRecipientDialog($event)")
+//-       material-icon(icon="/images/material-icons/ic_person_24px_white.svg")
+//-     //- Add attach file
+//-     material-button.material-button-fab.material-theme-purple.no-shadow(style="margin-top: -16px;", ng-click="openFileDialog($event)")
+//-       material-icon(icon="/images/material-icons/add_attach_file_24px_white.svg")
+//-     //- Add Expenditure (Ausgaben)
+//-     material-button.material-button-fab.material-theme-purple.no-shadow(style="margin-top: -16px;", ng-click="openExpenditureDialog($event)")
+//-       material-icon(icon="/images/material-icons/ic_attach_money_24px_white.svg")
+//-     //- Add Service
+//-     material-button.material-button-fab.material-theme-purple.no-shadow(style="margin-top: -16px;", ng-click="openServiceDialog($event)")
+//-       material-icon(icon="/images/material-icons/ic_check_24px_white.svg")

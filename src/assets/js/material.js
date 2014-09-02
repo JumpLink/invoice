@@ -5,6 +5,7 @@ jumplink.invoice = angular.module('jumplink.invoice', [
   , 'sails.io'                // angularSails: https://github.com/balderdashy/angularSails
   , 'monospaced.qrcode'       // Angular QR Code: https://github.com/monospaced/angular-qrcode
   , 'angularMoment'           // angular-moment: https://github.com/urish/angular-moment
+  , 'webodf'                  // custom module
   , 'FBAngular'               // angular-fullscreen: https://github.com/fabiobiondi/angular-fullscreen
   , 'ngMaterial'              // Material Design for Angular: https://github.com/angular/material
   , 'pascalprecht.translate'  // localization angular-translate: https://github.com/angular-translate/angular-translate
@@ -75,6 +76,36 @@ jumplink.invoice.config( function($stateProvider, $urlRouterProvider, $locationP
       }
       , 'toolbar' : {
         templateUrl: 'material/invoices/new/toolbar'
+        , controller: 'InvoiceNewToolbarController'
+      }
+    }
+    ,resolve: {
+      invoice: function ($q, invoiceCreaterService) {
+        var deferred = $q.defer();
+        invoiceCreaterService.getData(function(error, invoice) {
+          if(error || !invoice) {
+            deferred.reject(error);
+          } else {
+            deferred.resolve(invoice);
+          }
+        });
+        return deferred.promise;
+      }
+    }
+  })
+  .state('material-layout.invoices-preview', {
+    url: '/invoices/preview'
+    , views: {
+      'leftSideNav': {
+        templateUrl: 'material/leftSideNav'
+        , controller: 'LeftSideNavController'
+      }
+      , 'content' : {
+        templateUrl: 'material/invoices/new/preview/content'
+        , controller: 'InvoicePreviewContentController'
+      }
+      , 'toolbar' : {
+        templateUrl: 'material/invoices/new/preview/toolbar'
         , controller: 'InvoiceNewToolbarController'
       }
     }

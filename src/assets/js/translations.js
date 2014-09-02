@@ -8,13 +8,16 @@ jumplink.invoice.config( function($translateProvider, tmhDynamicLocaleProvider) 
 
 
 jumplink.invoice.run(function(amMoment, tmhDynamicLocale, $translate, $rootScope) {
-
+  $rootScope.langReady = false;
   // switch locale automaticly on $rootScope.$locale change
   $rootScope.$watch('$locale', function(newValue, oldValue) {
+    $rootScope.langReady = false;
     console.log(newValue);
     tmhDynamicLocale.set(newValue);
     amMoment.changeLanguage(newValue);
-    $translate.use(newValue);
+    $translate.use(newValue).then(function(data){
+      $rootScope.langReady = true;
+    });;
   });
 
   // auto detect user's language

@@ -285,58 +285,40 @@ angular.module('webodf', [])
     }
 
     /*
-     * Create a new service table based on "templateElement" and append as child to "servicearea".
+     * Create a new service or expenditure table based on "templateElement" and append as child to area
      */
-    var appendNewServiceTableElement = function (odfContentNodeElement, servicearea, templateElement, number, title, description, cost) {
+    var appendNewTableElement = function (odfContentNodeElement, area, templateElement, number, values, tablename, newVarKey, oldVarKey) {
       var textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
       var newTableElement = templateElement.cloneNode(true);
       var newTableUserFieldsGet = newTableElement.getElementsByTagNameNS(textns, 'user-field-get');
-      newTableElement.setAttribute('table:name', 'servicetable.'+number);
+      newTableElement.setAttribute('table:name', tablename+'.'+number);
 
       // create new custom user field for number
-      newUserFieldDeclElement(odfContentNodeElement, "invoice.services."+number+".number", number, "float");
+      newUserFieldDeclElement(odfContentNodeElement, "invoice."+newVarKey+"."+number+".number", number, "float");
       // rename old custom user field to new created
-      redefineUserFieldGetElement(newTableUserFieldsGet, "invoice.service.number", "invoice.services."+number+".number", number);
+      redefineUserFieldGetElement(newTableUserFieldsGet, "invoice."+oldVarKey+".number", "invoice."+newVarKey+"."+number+".number", number);
 
-      // for title
-      newUserFieldDeclElement(odfContentNodeElement, "invoice.services."+number+".title", title, "string");
-      redefineUserFieldGetElement(newTableUserFieldsGet, "invoice.service.title", "invoice.services."+number+".title", title);
-
-      // for description
-      newUserFieldDeclElement(odfContentNodeElement, "invoice.services."+number+".description", description, "string");
-      redefineUserFieldGetElement(newTableUserFieldsGet, "invoice.service.description", "invoice.services."+number+".description", description);
-
-      // for cost
-      newUserFieldDeclElement(odfContentNodeElement, "invoice.services."+number+".cost", cost, "string");
-      redefineUserFieldGetElement(newTableUserFieldsGet, "invoice.service.cost", "invoice.services."+number+".cost", cost);
-
-      servicearea.appendChild(newTableElement);
-    }
-
-    var appendNewProductTableElement = function (odfContentNodeElement, area, templateElement, number, title, description, cost) {
-      var textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
-      var newTableElement = templateElement.cloneNode(true);
-      var newTableUserFieldsGet = newTableElement.getElementsByTagNameNS(textns, 'user-field-get');
-      newTableElement.setAttribute('table:name', 'producttable.'+number);
-
-      // create new custom user field for number
-      newUserFieldDeclElement(odfContentNodeElement, "invoice.products."+number+".number", number, "float");
-      // rename old custom user field to new created
-      redefineUserFieldGetElement(newTableUserFieldsGet, "invoice.product.number", "invoice.products."+number+".number", number);
-
-      // for title
-      newUserFieldDeclElement(odfContentNodeElement, "invoice.products."+number+".title", title, "string");
-      redefineUserFieldGetElement(newTableUserFieldsGet, "invoice.product.title", "invoice.products."+number+".title", title);
-
-      // for description
-      newUserFieldDeclElement(odfContentNodeElement, "invoice.products."+number+".description", description, "string");
-      redefineUserFieldGetElement(newTableUserFieldsGet, "invoice.product.description", "invoice.products."+number+".description", description);
-
-      // for cost
-      newUserFieldDeclElement(odfContentNodeElement, "invoice.products."+number+".cost", cost, "string");
-      redefineUserFieldGetElement(newTableUserFieldsGet, "invoice.product.cost", "invoice.products."+number+".cost", cost);
+      // create user fields for each key in values
+      for (key in values) {
+        newUserFieldDeclElement(odfContentNodeElement, "invoice."+newVarKey+"."+number+"."+key, values[key], "string");
+        redefineUserFieldGetElement(newTableUserFieldsGet, "invoice."+oldVarKey+"."+key, "invoice."+newVarKey+"."+number+"."+key, values[key]);
+      }
 
       area.appendChild(newTableElement);
+    }
+
+    /*
+     * Create a new service table based on "templateElement" and append as child to "servicearea".
+     */
+    var appendNewServiceTableElement = function (odfContentNodeElement, area, templateElement, number, values) {
+      appendNewTableElement(odfContentNodeElement, area, templateElement, number, values, "servicetable", "services", "service");
+    }
+
+    /*
+     * Create a new expenditure table based on "templateElement" (name is "expendituretable") and append as child to "expenditurearea".
+     */
+    var appendNewExpenditureTableElement = function (odfContentNodeElement, area, templateElement, number, values) {
+      appendNewTableElement(odfContentNodeElement, area, templateElement, number, values, "expendituretable", "expenditures", "expenditure");
     }
 
     var initializeWidth = function(odfCanvas, element) {
@@ -356,8 +338,8 @@ angular.module('webodf', [])
         for(var key in invoice) {
           if(key == 'services') {
             // do nothing, see updateDocumentServices function
-          } else if(key == 'products') {
-            // do nothing, see updateDocumentProducts function
+          } else if(key == 'expenditures') {
+            // do nothing, see updateDocumentExpenditurs function
           } else  if(key == 'approver') {
             // update all invoice.approver fields
             for(var subkey in invoice.approver) {
@@ -407,25 +389,33 @@ angular.module('webodf', [])
       var areaElement = getArea(odfContentNodeElement, 'servicearea');
       // remove all old services be shure to save the template service before
       removeAllChilds(areaElement);
-      for (var i = 0; i < services.length; i++) {
-        appendNewServiceTableElement(odfContentNodeElement, areaElement, templateServiceTableElement, i+1, services[i].title, services[i].description, services[i].cost);
-      };
+      if(services) {
+        for (var i = 0; i < services.length; i++) {
+          appendNewServiceTableElement(odfContentNodeElement, areaElement, templateServiceTableElement, i+1, services[i]);
+        };
+      } else {
+        console.log("services not defined");
+      }
     }
 
-    var updateDocumentProducts = function(odfContentNodeElement, templateProductTableElement, products) {
-      var areaElement = getArea(odfContentNodeElement, 'productarea');
-      // remove all old products be shure to save the template product before
+    var updateDocumentExpenditurs = function(odfContentNodeElement, templateExpenditureTableElement, expenditures) {
+      var areaElement = getArea(odfContentNodeElement, 'expenditurearea');
+      // remove all old expenditures be shure to save the template expenditure before
       removeAllChilds(areaElement);
-      for (var i = 0; i < products.length; i++) {
-        appendNewProductTableElement(odfContentNodeElement, areaElement, templateProductTableElement, i+1, products[i].title, products[i].description, products[i].cost);
-      };
+      if(expenditures) {
+        for (var i = 0; i < expenditures.length; i++) {
+          appendNewExpenditureTableElement(odfContentNodeElement, areaElement, templateExpenditureTableElement, i+1, expenditures[i]);
+        };
+      } else {
+        console.log("expenditures not defined");
+      }
     }
 
     return {
       restrict: 'E',
       scope: {file : "@", invoice: "=", upload: "=", refresh: "=", ready: "=", download: "="},
       link: function ($scope, $element, $attrs) {
-        var nid, odfCanvas, templateServiceTableElement, templateProductTableElement, odfContentNodeElement, odfContainer;
+        var nid, odfCanvas, templateServiceTableElement, templateExpenditureTableElement, odfContentNodeElement, odfContainer;
 
         nid = 'odt' + Math.floor((Math.random()*100)+1);
         $element.attr('id', nid);
@@ -450,7 +440,7 @@ angular.module('webodf', [])
           console.log("refresh");
           updateDocument(odfContentNodeElement, $scope.invoice);
           updateDocumentServices(odfContentNodeElement, templateServiceTableElement, $scope.invoice.services);
-          updateDocumentProducts(odfContentNodeElement, templateProductTableElement, $scope.invoice.products);
+          updateDocumentExpenditurs(odfContentNodeElement, templateExpenditureTableElement, $scope.invoice.expenditures);
         }
 
         angular.element($window).bind('resize', function() {
@@ -470,8 +460,8 @@ angular.module('webodf', [])
           // get service template and store ot globaly
           getTableElementByName(getTableElements(odfCanvas.odfContainer().getContentElement()), 'servicetable', function(error, serviceTableElement) {
             templateServiceTableElement = serviceTableElement;
-            getTableElementByName(getTableElements(odfCanvas.odfContainer().getContentElement()), 'producttable', function(error, productTableElement) {
-              templateProductTableElement = productTableElement;
+            getTableElementByName(getTableElements(odfCanvas.odfContainer().getContentElement()), 'expendituretable', function(error, expenditureTableElement) {
+              templateExpenditureTableElement = expenditureTableElement;
               $scope.ready();
             });
           });

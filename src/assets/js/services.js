@@ -8,7 +8,7 @@ jumplink.invoice.service('historyService', function ($window) {
   };
 });
 
-jumplink.invoice.factory('invoiceCreaterService', function (moment, $translate) {
+jumplink.invoice.factory('invoiceCreaterService', function (moment, $translate, $filter, $timeout, $rootScope) {
   var currentInvoice;
 
   var fetchData = function (callback) {
@@ -31,82 +31,42 @@ jumplink.invoice.factory('invoiceCreaterService', function (moment, $translate) 
       , bank: bank
     }
 
-    // var recipient = {
-    //   name: "customer"
-    //   , email: "test@test.eu"
-    //   , address1: "address1"
-    //   , address2: "address2"
-    //   , address3: "address3"
-    // }
-
     var services = []
-    // services.push({
-    //   title: ""
-    //   , description: ""
-    //   , cost: 0
-    // });
 
     // TODO rename to expenditures
-    var products = []
-    // products.push({
-    //   title: ""
-    //   , description: ""
-    //   , cost: 0
-    // });
+    var expenditures = []
 
     var translate = {};
 
-    $translate("Invoice").then(function (translation) {
-      translate.invoice = translation;
+    $rootScope.$watch('langReady', function(newVal){
+      if(newVal) {
+        $translate(["Invoice", "Amount", "Total amount", "Tax", "Phone", "Fax", "Hours", "Rate", "Total", "Price", "VAT", "Packaging & Shipping", "Quantity", "Unit price without VAT", "Expenditures", "Services", "Total without VAT", "Rate without VAT", "Grand total"])
+        .then(function (translations) {
+          for(var key in translations) {
+            var newKey = key.toLowerCase().replace(/[^a-zA-Z0-9]/g,''); // transform index key for valid index key in odf file
+            translate[newKey] = translations[key];
+          }
+        }, function(reason) {
+          console.log("translate.invoice error");
+          console.log("reason: "+reason);
+        });
+      }
     });
-    $translate("amount").then(function (translation) {
-      translate.amount = translation;
-    });
-    $translate("totalamount").then(function (translation) {
-      translate.totalamount = translation;
-    });
-    $translate("tax").then(function (translation) {
-      translate.tax = translation;
-    });
-    $translate("phone").then(function (translation) {
-      translate.phone = translation;
-    });
-    $translate("fax").then(function (translation) {
-      translate.fax = translation;
-    });
-    $translate("hours").then(function (translation) {
-      translate.hours = translation;
-    });
-    $translate("rate").then(function (translation) {
-      translate.rate = translation;
-    });
-    $translate("total").then(function (translation) {
-      translate.total = translation;
-    });
-    $translate("price").then(function (translation) {
-      translate.price = translation;
-    });
-    // var translate = {
-    //   invoice: "Rechnung"
-    //   , amount: "Summe"
-    //   , totalamount: "Gesamtsumme"
-    //   , tax: "Umsatzsteuer"
-    //   , phone: "Telefon"
-    //   , fax: "Fax"
-    //   , hours: "Stunden"
-    //   , rate: "Tarif"
-    //   , total: "Gesamt"
-    //   , price: "Preis"
-    // }
+
+
+    var date = moment();                // now
+    var duedate = date.add('month', 1); // in one month
 
     var invoice = {
       approver: approver
-      // , recipient: recipient
+      , recipient: null
       , currency: "Euro"
-      , date: moment() // now; example filter: $filter('amDateFormat')(now, 'dddd, Do MMMM YYYY')
-      , deadline: moment().add('month', 1) // in one month; example filter: $filter('amDateFormat')(deadline, 'dddd, Do MMMM YYYY')
+      , date: date
+      , dateHuman: $filter('amDateFormat')(date, 'dddd, Do MMMM YYYY')
+      , duedate: duedate
+      , duedateHuman: $filter('amDateFormat')(duedate, 'dddd, Do MMMM YYYY')
       , services: services
-      , products: products
+      , expenditures: expenditures
       , number: 1
       , taxrate: 0
       , tax: 0
@@ -114,6 +74,7 @@ jumplink.invoice.factory('invoiceCreaterService', function (moment, $translate) 
       , totalamount: 100
       , translate: translate
     }
+
     callback(null, invoice);
   }
 
@@ -133,9 +94,13 @@ jumplink.invoice.factory('invoiceCreaterService', function (moment, $translate) 
 
   var getEmptyServiceObject = function() {
     return {
-      title: ""
-      , description: ""
-      , cost: 0
+      title: ""         // Titel
+      , description: "" // Beschreibung
+      , time: 1         // Zeit
+      , rate: 40        // Tarif ohne Mehrwertsteuer
+      , vat: 0          // Mehrwertsteuer
+      , vatrate: 0      // Mehrwertsteuersatz
+      , total: 40       // Summe
     };
   }
 
@@ -150,19 +115,24 @@ jumplink.invoice.factory('invoiceCreaterService', function (moment, $translate) 
 
   var getEmptyExpenditureObject = function() {
     return {
-      title: ""
-      , description: ""
-      , cost: 0
+      title: ""           // Titel
+      , description: ""   // Beschreibung
+      , netunitprice: 40  // Einzelpreis Netto
+      , quantity: 1       // Menge
+      , shipping: 0       // Verpackung und Versand
+      , vatrate: 0        // Mehrwertsteuersatz
+      , vat: 0            // Mehrwertsteuer
+      , total: 40         // Summe
     };
   }
 
   var addExpenditure = function(expenditure) {
     if(!expenditure) expenditure = getEmptyExpenditureObject();
-    currentInvoice.products.push(expenditure);
+    currentInvoice.expenditures.push(expenditure);
   }
 
   var removeExpenditure = function() {
-    currentInvoice.products.pop();
+    currentInvoice.expenditures.pop();
   }
 
   var getEmptyRecipientObject = function() {

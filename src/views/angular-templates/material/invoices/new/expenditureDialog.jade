@@ -1,15 +1,32 @@
-material-dialog
+material-dialog(style="min-width: 355px;")
   .dialog-content
     .dialog-title {{'New Expenditure' | translate}}
     material-input-group.material-input-group-theme-light
       label(for="title") {{'Title' | translate}}
-      material-input#title(type="text", ng-model="service.title")
+      material-input#title(type="text", ng-model="expenditure.title")
     material-input-group.material-input-group-theme-light
       label(for="description") {{'Description' | translate}}
-      material-input#description(type="text", ng-model="service.description")
+      material-input#description(type="text", ng-model="expenditure.description")
     material-input-group.material-input-group-theme-light
-      label(for="cost") {{'Cost' | translate}}
-      material-input#cost(type="number", ng-model="service.cost")
+      label(for="netunitprice") {{'Unit price without VAT' | translate}}
+      material-input#netunitprice(type="number", ng-model="expenditure.netunitprice")
+    material-input-group.material-input-group-theme-light
+      label(for="quantity") {{'Quantity' | translate}}
+      material-input#quantity(type="number", ng-model="expenditure.quantity")
+    material-input-group.material-input-group-theme-light
+      label(for="shipping") {{'Packaging & Shipping' | translate}}
+      material-input#shipping(type="number", ng-model="expenditure.shipping")
+    br
+    label(for="vatrate") {{'VAT rate' | translate}}
+    material-radio-group#vatrate(ng-model="expenditure.vatrate")
+      material-radio-button(value=0, aria-label="0%")
+        | 0%
+      material-radio-button(value=7, aria-label="7%")
+        | 7%
+      material-radio-button(value=19, aria-label="19%")
+        | 19%
+    p {{'vat' | translate}}: {{expenditure.vat}}
+    p {{'Total' | translate}}: {{expenditure.total}}
   .dialog-actions(layout='horizontal', layout-align='end')
     material-button(ng-click='close()')
       | {{'Cancel' | translate}}

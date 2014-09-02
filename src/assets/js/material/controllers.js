@@ -113,15 +113,21 @@ jumplink.invoice.controller('InvoiceNewContentController', function($scope, invo
 
 });
 
-jumplink.invoice.controller('InvoiceNewToolbarController', function($scope, historyService) {
+jumplink.invoice.controller('InvoiceNewToolbarController', function($scope, historyService, $state) {
   $scope.goBack = function () {
     historyService.back();
   }
+  $scope.done = function() {
+    console.log("done");
+    $state.go('material-layout.invoices-preview');
+  };
 });
 
 jumplink.invoice.controller('ServiceDialogController', function($scope, $hideDialog, invoiceCreaterService, service) {
+
   if(!service) $scope.service = invoiceCreaterService.getEmptyServiceObject();
   else $scope.service = service
+
   $scope.close = function() {
     if($hideDialog) $hideDialog();
     else console.log("No dialog to close!");
@@ -134,8 +140,49 @@ jumplink.invoice.controller('ServiceDialogController', function($scope, $hideDia
 });
 
 jumplink.invoice.controller('ExpenditureDialogController', function($scope, $hideDialog, invoiceCreaterService, expenditure) {
+
   if(!expenditure) $scope.expenditure = invoiceCreaterService.getEmptyExpenditureObject();
-  else $scope.expenditure = expenditure
+  else $scope.expenditure = expenditure;
+
+  var updatePrice = function () {
+    console.log($scope.expenditure.netunitprice);
+
+    if(angular.isDefined($scope.expenditure.vatrate) && $scope.expenditure.vatrate != 0) {
+      $scope.expenditure.vatratePercent = $scope.expenditure.vatrate / 100;
+    } else {
+      $scope.expenditure.vatrate = 0;
+      $scope.expenditure.vatratePercent = 0;
+    }
+
+    if(angular.isUndefined($scope.expenditure.shipping)) {
+      $scope.expenditure.shipping = 0;
+    }
+
+    if(angular.isUndefined($scope.expenditure.quantity)) {
+      $scope.expenditure.quantity = 1;
+    }
+
+    $scope.expenditure.nettotal = ($scope.expenditure.netunitprice * $scope.expenditure.quantity) + $scope.expenditure.shipping;
+    $scope.expenditure.vat = $scope.expenditure.nettotal * $scope.expenditure.vatratePercent;
+    $scope.expenditure.total = $scope.expenditure.vat + $scope.expenditure.nettotal;
+  }
+
+  $scope.$watch('expenditure.netunitprice', function(newVal) {
+    updatePrice();
+  });
+
+  $scope.$watch('expenditure.quantity', function(newVal) {
+    updatePrice();
+  });
+
+  $scope.$watch('expenditure.vatrate', function(newVal) {
+    updatePrice();
+  });
+
+  $scope.$watch('expenditure.shipping', function(newVal) {
+    updatePrice();
+  });
+
   $scope.close = function() {
     if($hideDialog) $hideDialog();
     else console.log("No dialog to close!");
@@ -148,8 +195,10 @@ jumplink.invoice.controller('ExpenditureDialogController', function($scope, $hid
 });
 
 jumplink.invoice.controller('RecipientDialogController', function($scope, $hideDialog, invoiceCreaterService, recipient) {
+
   if(!recipient) $scope.recipient = invoiceCreaterService.getEmptyRecipientObject();
   else $scope.recipient = recipient
+
   $scope.close = function() {
     if($hideDialog) $hideDialog();
     else console.log("No dialog to close!");
@@ -159,4 +208,40 @@ jumplink.invoice.controller('RecipientDialogController', function($scope, $hideD
     invoiceCreaterService.setRecipient($scope.recipient);
     $scope.close();
   }
+});
+
+jumplink.invoice.controller('InvoicePreviewContentController', function($scope, invoiceCreaterService, invoice, $filter) {
+
+  $scope.invoice = invoice; // result of resolve from ui-route
+
+  $scope.$watch('invoice.date', function(newVal) {
+    $scope.invoice.dateHuman = $filter('amDateFormat')(newVal, 'dddd, Do MMMM YYYY');
+  });
+
+  $scope.$watch('invoice.duedate', function(newVal) {
+    $scope.invoice.duedateHuman = $filter('amDateFormat')(newVal, 'dddd, Do MMMM YYYY');
+  });
+
+
+  $scope.upload = function() {
+    $scope.webodf.upload();
+  }
+
+  $scope.download = function() {
+    $scope.webodf.download();
+  }
+
+  $scope.refresh = function() {
+    $scope.webodf.refresh();
+  }
+
+  var onWebODFReady = function() {
+    console.log("ready");
+    $scope.refresh();
+  }
+
+  $scope.webodf = {
+    ready: onWebODFReady
+  };
+
 });

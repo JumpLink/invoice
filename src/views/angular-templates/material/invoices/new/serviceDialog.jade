@@ -8,8 +8,22 @@ material-dialog
       label(for="description") {{'Description' | translate}}
       material-input#description(type="text", ng-model="service.description")
     material-input-group.material-input-group-theme-light
-      label(for="cost") {{'Cost' | translate}}
-      material-input#cost(type="number", ng-model="service.cost")
+      label(for="rate") {{'Rate without VAT' | translate}}
+      material-input#rate(type="number", ng-model="service.rate")
+    material-input-group.material-input-group-theme-light
+      label(for="time") {{'Time' | translate}}
+      material-input#time(type="number", ng-model="service.time")
+    br
+    label(for="vatrate") {{'VAT rate' | translate}}
+    material-radio-group#vatrate(ng-model="service.vatrate")
+      material-radio-button(value="0" aria-label="0%")
+        | 0%
+      material-radio-button(value="7" aria-label="7%")
+        | 7%
+      material-radio-button(value="19" aria-label="19%")
+        | 19%
+    p {{'VAT' | translate}}: {{service.vat}}
+    | {{'Total' | translate}}: {{service.cost}}
   .dialog-actions(layout='horizontal', layout-align='end')
     material-button(ng-click='close()')
       | {{'Cancel' | translate}}
